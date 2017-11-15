@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="title" type="java.lang.String" value="Info - CCMaster"/>
+    <Property name="bounds" type="java.awt.Rectangle" editor="org.netbeans.beaninfo.editors.RectangleEditor">
+      <Rectangle value="[200, 200, 0, 0]"/>
+    </Property>
+    <Property name="name" type="java.lang.String" value="frameInfos" noResource="true"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel1" pref="725" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel1" min="-2" pref="417" max="-2" attributes="0"/>
+              <EmptySpace pref="26" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="14" style="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Welcome! &lt;/b&gt;&lt;br&gt;&#xa;Make calculations for solution making or dilution of stock solutions, and save it to a txt file with CCMaster! &lt;br&gt;&#xa;&lt;br&gt;&#xa;&lt;p align=&quot;justify&quot;&gt;&lt;b&gt;1. Calculations&lt;/b&gt;&lt;br&gt;&#xa;Select the panel you need, &quot;solid&quot; to calculate solution parameters, or &quot;liquid&quot; for the dilution of stocks. Type in the parameters and select the units, leaving only one field empty. &#xa;You can use the tab and the cursor keys. To perform the calculation, press the calculate button. &#xa;To clear the form, press Clear.&#xa;You may use commas as decimal separators, if you activate the checkbox on top. &lt;/p&gt;&#xa;&lt;br&gt;&#xa;&lt;p align=&quot;justify&quot;&gt;&lt;b&gt;2. Saving your solution into a txt file&lt;/b&gt;&lt;br&gt;&#xa;Activate the Enable saving option box. &#xa;You can give a name to the solution, and insert it to the text by clicking on the Insert... button. &#xa;If you are calculating and saving multiple solutions, just insert the name of the new solution before adding the first line of it. &#xa;Do the calculation as usual. Fill the Name of substance/Name of solvent fields (solid), or the Name of stock/Name of diluent fields (liquid). &#xa;Once everything is ready to save, hit the &quot;Add to Solution&quot; or the &quot;Add and Clear&quot; button. &#xa;The latter adds the line to the solution and clears the form thereafter.&#xa;You can add both solid and liquid lines into a solution, mix them as you need.&#xa;When you have finished, hit the &quot;Save solution&quot; button and save the file as a txt. &#xa;You can open it with any text editor to edit or print. &lt;/p&gt; &#xa;&lt;br&gt;&#xa;&lt;b&gt;About: &lt;/b&gt;&lt;br&gt;&#xa;&lt;br&gt;&#xa;CCMaster 1.0&lt;br&gt;&#xa;Author: Rita Papp&lt;br&gt;&#xa;v_vanellus@yahoo.com&lt;br&gt;&#xa;15.11.2017. &lt;br&gt;"/>
+      </Properties>
+    </Component>
+  </SubComponents>
+</Form>
