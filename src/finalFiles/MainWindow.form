@@ -170,36 +170,47 @@
                               </Group>
                               <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="txtVolume" min="-2" pref="72" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="cbVolume" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <Component id="txtVolume" min="-2" pref="72" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="cbVolume" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="lblVolume" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace pref="54" max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <Component id="txtConc" min="-2" pref="68" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="cbConc" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="lblConc" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="lblVolume" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtNameSolvent" min="-2" pref="144" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace pref="54" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="txtConc" min="-2" pref="68" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="txtNameSolvent" min="-2" pref="144" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="cbConc" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblSolvent" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="lblConc" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Component id="txtNameSubstance" min="-2" pref="131" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="lblSubstance" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="btnCalcSolid" pref="123" max="32767" attributes="0"/>
-                          <Component id="btnAddSolid" max="32767" attributes="0"/>
+                          <Component id="btnCalcSolid" max="32767" attributes="0"/>
+                          <Component id="btnAddSolid" min="-2" pref="123" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -234,8 +245,10 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="txtNameSubstance" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtNameSolvent" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblSubstance" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblSolvent" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                      <EmptySpace pref="34" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="btnCalcSolid" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="btnClearSolid" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -245,7 +258,7 @@
                           <Component id="btnAddSolid" min="-2" max="-2" attributes="0"/>
                           <Component id="btnAddClearSolid" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="36" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -340,15 +353,21 @@
             </Component>
             <Component class="javax.swing.JTextField" name="txtNameSubstance">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Name of substance"/>
+                <Property name="text" type="java.lang.String" value="Name (max 15 char)"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="substanceReactClick"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtNameSolvent">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Name of solvent"/>
+                <Property name="text" type="java.lang.String" value="Name (max 15 char)"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="solventReactClick"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnCalcSolid">
               <Properties>
@@ -385,6 +404,24 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddClearSolidActionPerformed"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JLabel" name="lblSubstance">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Substance"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblSolvent">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Solvent"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="pnlLiquid">
@@ -401,7 +438,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
@@ -419,50 +456,52 @@
                               </Group>
                               <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
+                                  <Component id="lblStockcc" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblStockcc" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="txtStockcc" alignment="0" min="-2" pref="74" max="-2" attributes="0"/>
-                                                  <Component id="txtFinalcc" alignment="0" min="-2" pref="74" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="cbStockcc" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="cbFinalcc" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
+                                          <Component id="txtStockcc" alignment="0" min="-2" pref="74" max="-2" attributes="0"/>
+                                          <Component id="txtFinalcc" alignment="0" min="-2" pref="74" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="txtNameStock" min="-2" pref="108" max="-2" attributes="0"/>
-                                          <Component id="txtNameDiluent" min="-2" pref="108" max="-2" attributes="0"/>
+                                          <Component id="cbStockcc" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cbFinalcc" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <Component id="lblFinalcc" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblFinalcc" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
                               <Component id="txtFinalV" min="-2" pref="63" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="cbFinalV" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="btnCalcLiquid" pref="123" max="32767" attributes="0"/>
-                                  <Component id="btnAddLiquid" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="btnAddClearLiquid" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnClearLiquid" min="-2" pref="121" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
                       </Group>
-                      <EmptySpace pref="169" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="txtNameStock" max="32767" attributes="0"/>
+                          <Component id="txtNameDiluent" min="-2" pref="133" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblStock" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblDiluent" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="btnCalcLiquid" pref="123" max="32767" attributes="0"/>
+                          <Component id="btnAddLiquid" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnAddClearLiquid" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnClearLiquid" min="-2" pref="121" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="332" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -476,24 +515,37 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="txtStockV" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtNameStock" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbStockV" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtStockcc" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbStockcc" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblFinalV" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblFinalcc" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="cbFinalV" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtFinalcc" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbFinalcc" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtNameDiluent" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtFinalV" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="txtStockV" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbStockV" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtStockcc" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbStockcc" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblFinalV" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblFinalcc" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="cbFinalV" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtFinalcc" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbFinalcc" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtFinalV" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="txtNameStock" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblStock" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="48" pref="48" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="txtNameDiluent" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblDiluent" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
                       <EmptySpace pref="36" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -613,15 +665,21 @@
             </Component>
             <Component class="javax.swing.JTextField" name="txtNameStock">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Name of stock"/>
+                <Property name="text" type="java.lang.String" value="Name (max 15 char)"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="stockReactClick"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtNameDiluent">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Name of diluent"/>
+                <Property name="text" type="java.lang.String" value="Name (max 15 char)"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="diluentReactClick"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnCalcLiquid">
               <Properties>
@@ -637,6 +695,9 @@
                 <Property name="text" type="java.lang.String" value="ADD and CLEAR"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddClearLiquidActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnClearLiquid">
               <Properties>
@@ -649,6 +710,27 @@
             <Component class="javax.swing.JButton" name="btnAddLiquid">
               <Properties>
                 <Property name="text" type="java.lang.String" value="ADD to Solution"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddLiquidActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblStock">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Stock"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblDiluent">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Diluent"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>

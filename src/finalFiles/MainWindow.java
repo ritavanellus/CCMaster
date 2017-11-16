@@ -13,7 +13,6 @@ import java.nio.file.Path;
 import java.text.DecimalFormat;
 import javax.swing.JFileChooser;
 
-
 /**
  *
  * @author Rita
@@ -26,1015 +25,952 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         initComponents();
     }
-    
+
     //decimal format to display results
-    DecimalFormat df= new DecimalFormat("####.00");
-    
+    DecimalFormat df = new DecimalFormat("####.00");
+
     //initializing the text that will be saved to txt file
-    StringBuilder printStuff=new StringBuilder();
-    final String lineBreak=System.getProperty("line.separator");
-    
-    
-    
+    StringBuilder printStuff = new StringBuilder();
+    final String lineBreak = System.getProperty("line.separator");
+
     /**
-     * Method to check if there is exactly one text field that is empty.
-     * It refers to the solid panel. The liquid panel has its own similar method. 
-     * Input values are not checked yet. 
-     * Boolean true is returned, if 3 fields contain text, and one does not. 
-     * @return 
+     * Method to check if there is exactly one text field that is empty. It
+     * refers to the solid panel. The liquid panel has its own similar method.
+     * Input values are not checked yet. Boolean true is returned, if 3 fields
+     * contain text, and one does not.
+     *
+     * @return
      */
-    public boolean inputCheckSolid(){
-        int endSum=0;
-        String weight=txtWeight.getText();
-        String mw=txtMW.getText();
-        String vol=txtVolume.getText();
-        String conc=txtConc.getText();
-        
-        if (weight.equals("")){
-        endSum++;
+    public boolean inputCheckSolid() {
+        int endSum = 0;
+        String weight = txtWeight.getText();
+        String mw = txtMW.getText();
+        String vol = txtVolume.getText();
+        String conc = txtConc.getText();
+
+        if (weight.equals("")) {
+            endSum++;
+        }
+        if (mw.equals("")) {
+            endSum++;
+        }
+        if (vol.equals("")) {
+            endSum++;
+        }
+        if (conc.equals("")) {
+            endSum++;
+        }
+
+        return (endSum == 1);
+
     }
-       if (mw.equals("")){
-        endSum++;
-    } 
-        if (vol.equals("")){
-        endSum++;
-    }
-        if (conc.equals("")){
-        endSum++;
-    }
-        
-        return (endSum==1);
-        
-    }
-    
+
     /**
-     * Checking if there is only 1 empty field on the liquid pane.
-     * Input values are not checked yet. 
-     * @return 
+     * Checking if there is only 1 empty field on the liquid pane. Input values
+     * are not checked yet.
+     *
+     * @return
      */
-    public boolean inputCheckLiquid(){
-        int endSum=0;
-        String stockV=txtStockV.getText();
-        String stockCc=txtStockcc.getText();
-        String finalV=txtFinalV.getText();
-        String finalCc=txtFinalcc.getText();
-        
-        if (stockV.equals("")){
+    public boolean inputCheckLiquid() {
+        int endSum = 0;
+        String stockV = txtStockV.getText();
+        String stockCc = txtStockcc.getText();
+        String finalV = txtFinalV.getText();
+        String finalCc = txtFinalcc.getText();
+
+        if (stockV.equals("")) {
             endSum++;
         }
-        if (stockCc.equals("")){
+        if (stockCc.equals("")) {
             endSum++;
         }
-        if (finalV.equals("")){
+        if (finalV.equals("")) {
             endSum++;
         }
-        if (finalCc.equals("")){
+        if (finalCc.equals("")) {
             endSum++;
         }
-        return (endSum==1);
+        return (endSum == 1);
     }
-    
+
     /**
-     * Method to calculate wieght, when MW, Volume and CC inputs are given. 
+     * Method to calculate wieght, when MW, Volume and CC inputs are given.
      */
-    public void calcWeight(){
-        try{
+    public void calcWeight() {
+        try {
             //getting the texts from the text fields
-            String mwText=txtMW.getText();
-            String volumeText=txtVolume.getText();
-            String concText=txtConc.getText();
+            String mwText = txtMW.getText();
+            String volumeText = txtVolume.getText();
+            String concText = txtConc.getText();
             String mwIn;
             String volumeIn;
             String concIn;
-            
+
             //implementing the Europe-friendly option
-            if (chbEuropeFriendly.isSelected()){
-                mwIn = mwText.replace(",",".");
-                volumeIn=volumeText.replace(",",".");
-                concIn=concText.replace(",","."); 
-            }
-            else {
+            if (chbEuropeFriendly.isSelected()) {
+                mwIn = mwText.replace(",", ".");
+                volumeIn = volumeText.replace(",", ".");
+                concIn = concText.replace(",", ".");
+            } else {
                 mwIn = mwText;
-                volumeIn=volumeText;
-                concIn=concText; 
+                volumeIn = volumeText;
+                concIn = concText;
             }
 
             //getting the numbers for the calculation
-            double mw=Double.parseDouble(mwIn);
-            double volume=Double.parseDouble(volumeIn);
-            double conc=Double.parseDouble(concIn);
-            
+            double mw = Double.parseDouble(mwIn);
+            double volume = Double.parseDouble(volumeIn);
+            double conc = Double.parseDouble(concIn);
+
             //getting the real volume
-            String volUnit=(String) cbVolume.getSelectedItem();
+            String volUnit = (String) cbVolume.getSelectedItem();
             double volFactor;
-            switch(volUnit){
+            switch (volUnit) {
                 case "mL":
-                    volFactor=0.001;
+                    volFactor = 0.001;
                     break;
                 case "microL":
-                    volFactor=0.000001;
+                    volFactor = 0.000001;
                     break;
-                default: 
-                    volFactor=1.0;
+                default:
+                    volFactor = 1.0;
             }
-            volume*=volFactor;
-            
+            volume *= volFactor;
+
             //getting the real concentration
-            String concUnit=(String) cbConc.getSelectedItem();
+            String concUnit = (String) cbConc.getSelectedItem();
             double concFactor;
-            switch(concUnit){
+            switch (concUnit) {
                 case "mM":
-                    concFactor=0.001;
+                    concFactor = 0.001;
                     break;
                 case "microM":
-                    concFactor=Math.pow(10, -6);
+                    concFactor = Math.pow(10, -6);
                     break;
                 case "nanoM":
-                    concFactor=Math.pow(10, -9);
+                    concFactor = Math.pow(10, -9);
                     break;
                 case "picoM":
-                    concFactor=Math.pow(10, -12);
+                    concFactor = Math.pow(10, -12);
                     break;
-                default: 
-                    concFactor=1.0;    
+                default:
+                    concFactor = 1.0;
             }
-            conc*=concFactor;
-            
+            conc *= concFactor;
+
             //doing the calculation
-            double weight=conc*volume*mw;
-            
+            double weight = conc * volume * mw;
+
             //finding the adequate unit for the weight
-                 if (weight+0.005>1000.0){
-                    weight/=1000.0;
-                    cbWeight.setSelectedItem("kg");
-                }
-                else if (weight+0.005>1.0) {
-                    cbWeight.setSelectedItem("g");
-                }
-                else if (weight+5.0*Math.pow(10, -6) >0.001){
-                    weight*=1000.0;
-                    cbWeight.setSelectedItem("mg");
-                }
-                else if (weight+5.0*Math.pow(10, -9)>Math.pow(10, -6)){
-                    weight*=1000000.0;
-                    cbWeight.setSelectedItem("microg");
-                }
-            
-            
+            if (weight + 0.005 > 1000.0) {
+                weight /= 1000.0;
+                cbWeight.setSelectedItem("kg");
+            } else if (weight + 0.005 > 1.0) {
+                cbWeight.setSelectedItem("g");
+            } else if (weight + 5.0 * Math.pow(10, -6) > 0.001) {
+                weight *= 1000.0;
+                cbWeight.setSelectedItem("mg");
+            } else if (weight + 5.0 * Math.pow(10, -9) > Math.pow(10, -6)) {
+                weight *= 1000000.0;
+                cbWeight.setSelectedItem("microg");
+            }
+
             //checking the range and displaying the value in the textfield
-            if (weight>=Math.pow(10, 6)|| weight+5.0*Math.pow(10, -9)<=Math.pow(10, -6)){
+            if (weight >= Math.pow(10, 6) || weight + 5.0 * Math.pow(10, -9) <= Math.pow(10, -6)) {
                 lblMessageBar.setText("The result (Weight) is out of the display limits!");
-            }
-            else {
+            } else {
                 lblMessageBar.setText("Here you go!");
-                if (chbEuropeFriendly.isSelected()){
-                        txtWeight.setText(df.format(weight));
-                    }
-                    else{
-                       String display=((df.format(weight)).replace(",", "."));
-                        txtWeight.setText(display);
-                    }
+                if (chbEuropeFriendly.isSelected()) {
+                    txtWeight.setText(df.format(weight));
+                } else {
+                    String display = ((df.format(weight)).replace(",", "."));
+                    txtWeight.setText(display);
+                }
             }
-        }
-        catch (NumberFormatException ex){
+        } catch (NumberFormatException ex) {
             lblMessageBar.setText("<html>Invalid data in at least one of the fields!<br>"
                     + "Maybe you are using commas as decimal separators?");
         }
     }
-    
+
     /**
-     * Method to calculate MW, when weight, volume and cc are given. 
+     * Method to calculate MW, when weight, volume and cc are given.
      */
-    public void calcMW (){
+    public void calcMW() {
         try {
             //getting the texts from the text fields
-            String weightText=txtWeight.getText();
-            String volumeText=txtVolume.getText();
-            String concText=txtConc.getText();
+            String weightText = txtWeight.getText();
+            String volumeText = txtVolume.getText();
+            String concText = txtConc.getText();
             String weightIn;
             String volumeIn;
             String concIn;
-            
+
             //implementing the Europe-friendly option
-            if (chbEuropeFriendly.isSelected()){
-                weightIn = weightText.replace(",",".");
-                volumeIn=volumeText.replace(",",".");
-                concIn=concText.replace(",","."); 
-            }
-            else {
+            if (chbEuropeFriendly.isSelected()) {
+                weightIn = weightText.replace(",", ".");
+                volumeIn = volumeText.replace(",", ".");
+                concIn = concText.replace(",", ".");
+            } else {
                 weightIn = weightText;
-                volumeIn=volumeText;
-                concIn=concText; 
+                volumeIn = volumeText;
+                concIn = concText;
             }
-             //getting the numbers for the calculation
-            double weight=Double.parseDouble(weightIn);
-            double volume=Double.parseDouble(volumeIn);
-            double conc=Double.parseDouble(concIn);
-            
+            //getting the numbers for the calculation
+            double weight = Double.parseDouble(weightIn);
+            double volume = Double.parseDouble(volumeIn);
+            double conc = Double.parseDouble(concIn);
+
             //getting the real weight
-            String weightUnit=(String) cbWeight.getSelectedItem();
+            String weightUnit = (String) cbWeight.getSelectedItem();
             double weightFactor;
-            switch (weightUnit){
-                case "kg": 
-                    weightFactor=1000.0;
+            switch (weightUnit) {
+                case "kg":
+                    weightFactor = 1000.0;
                     break;
                 case "mg":
-                    weightFactor=0.001;
+                    weightFactor = 0.001;
                     break;
                 case "microg":
-                    weightFactor=0.000001;
+                    weightFactor = 0.000001;
                     break;
                 default:
-                    weightFactor=1.0;
+                    weightFactor = 1.0;
             }
-            weight*=weightFactor;
-            
-            
+            weight *= weightFactor;
+
             //getting the real volume
-            String volUnit=(String) cbVolume.getSelectedItem();
+            String volUnit = (String) cbVolume.getSelectedItem();
             double volFactor;
-            switch(volUnit){
+            switch (volUnit) {
                 case "mL":
-                    volFactor=0.001;
+                    volFactor = 0.001;
                     break;
                 case "microL":
-                    volFactor=0.000001;
+                    volFactor = 0.000001;
                     break;
-                default: 
-                    volFactor=1.0;
+                default:
+                    volFactor = 1.0;
             }
-            volume*=volFactor;
-            
+            volume *= volFactor;
+
             //getting the real concentration
-            String concUnit=(String) cbConc.getSelectedItem();
+            String concUnit = (String) cbConc.getSelectedItem();
             double concFactor;
-            switch(concUnit){
+            switch (concUnit) {
                 case "mM":
-                    concFactor=0.001;
+                    concFactor = 0.001;
                     break;
                 case "microM":
-                    concFactor=Math.pow(10, -6);
+                    concFactor = Math.pow(10, -6);
                     break;
                 case "nanoM":
-                    concFactor=Math.pow(10, -9);
+                    concFactor = Math.pow(10, -9);
                     break;
                 case "picoM":
-                    concFactor=Math.pow(10, -12);
+                    concFactor = Math.pow(10, -12);
                     break;
-                default: 
-                    concFactor=1.0;    
+                default:
+                    concFactor = 1.0;
             }
-            conc*=concFactor;
-            
+            conc *= concFactor;
+
             //calculation
-            double mw=weight/(volume*conc);
-            
+            double mw = weight / (volume * conc);
+
             //checking the range 
-            if (mw>10000.0 || mw+5.0*Math.pow(10, -6)<=0.001){
+            if (mw > 10000.0 || mw + 5.0 * Math.pow(10, -6) <= 0.001) {
                 lblMessageBar.setText("The result (MW) is out of the display limits!");
-            }
-            //displaying the mw in the text field
+            } //displaying the mw in the text field
             else {
                 lblMessageBar.setText("Here you go!");
                 String display;
-                if (chbEuropeFriendly.isSelected()){
-                    display=df.format(mw);
+                if (chbEuropeFriendly.isSelected()) {
+                    display = df.format(mw);
+                    txtMW.setText(display);
+                } else {
+                    display = ((df.format(mw)).replace(",", "."));
                     txtMW.setText(display);
                 }
-                else{
-                   display=((df.format(mw)).replace(",", "."));
-                txtMW.setText(display); 
-                }
-            }  
-        }
-        catch (NumberFormatException ex){
+            }
+        } catch (NumberFormatException ex) {
             lblMessageBar.setText("<html>Invalid data in at least one of the fields!<br>"
                     + "Maybe you are using commas as decimal separators?");
         }
-        
+
     }
-    
+
     /**
      * Method to calculate volume if weight, mw and conc are given.
      */
-    public void calcVolume(){
-        try{
-            String weightText=txtWeight.getText();
-            String mwText=txtMW.getText();
-            String concText=txtConc.getText();
+    public void calcVolume() {
+        try {
+            String weightText = txtWeight.getText();
+            String mwText = txtMW.getText();
+            String concText = txtConc.getText();
             String weightIn;
             String mwIn;
             String concIn;
-            
+
             //implementing the Europe-friendly option
-            if (chbEuropeFriendly.isSelected()){
-                weightIn = weightText.replace(",",".");
-                mwIn=mwText.replace(",",".");
-                concIn=concText.replace(",","."); 
-            }
-            else {
+            if (chbEuropeFriendly.isSelected()) {
+                weightIn = weightText.replace(",", ".");
+                mwIn = mwText.replace(",", ".");
+                concIn = concText.replace(",", ".");
+            } else {
                 weightIn = weightText;
-                mwIn=mwText;
-                concIn=concText; 
+                mwIn = mwText;
+                concIn = concText;
             }
             //getting the numbers for the calculation
-            double weight=Double.parseDouble(weightIn);
-            double mw=Double.parseDouble(mwIn);
-            double conc=Double.parseDouble(concIn); 
-            
+            double weight = Double.parseDouble(weightIn);
+            double mw = Double.parseDouble(mwIn);
+            double conc = Double.parseDouble(concIn);
+
             //getting the real weight
-            String weightUnit=(String) cbWeight.getSelectedItem();
+            String weightUnit = (String) cbWeight.getSelectedItem();
             double weightFactor;
-            switch (weightUnit){
-                case "kg": 
-                    weightFactor=1000.0;
+            switch (weightUnit) {
+                case "kg":
+                    weightFactor = 1000.0;
                     break;
                 case "mg":
-                    weightFactor=0.001;
+                    weightFactor = 0.001;
                     break;
                 case "microg":
-                    weightFactor=0.000001;
+                    weightFactor = 0.000001;
                     break;
                 default:
-                    weightFactor=1.0;
+                    weightFactor = 1.0;
             }
-            weight*=weightFactor;
-            
+            weight *= weightFactor;
+
             //getting the real concentration
-            String concUnit=(String) cbConc.getSelectedItem();
+            String concUnit = (String) cbConc.getSelectedItem();
             double concFactor;
-            switch(concUnit){
+            switch (concUnit) {
                 case "mM":
-                    concFactor=0.001;
+                    concFactor = 0.001;
                     break;
                 case "microM":
-                    concFactor=Math.pow(10, -6);
+                    concFactor = Math.pow(10, -6);
                     break;
                 case "nanoM":
-                    concFactor=Math.pow(10, -9);
+                    concFactor = Math.pow(10, -9);
                     break;
                 case "picoM":
-                    concFactor=Math.pow(10, -12);
+                    concFactor = Math.pow(10, -12);
                     break;
-                default: 
-                    concFactor=1.0;    
+                default:
+                    concFactor = 1.0;
             }
-            conc*=concFactor;
-            
+            conc *= concFactor;
+
             //calculation
-            double volume=weight/(mw*conc);
-            
+            double volume = weight / (mw * conc);
+
             //finding the adequate unit for the volume            
-                 if (volume+0.005>1.0){
-                     cbVolume.setSelectedItem("L");   
-                 }
-                 else if (volume+5.0*Math.pow(10, -6)>0.001){
-                     cbVolume.setSelectedItem("mL");
-                     volume*=1000.0;
-                 }
-                 else if (volume+5.0*Math.pow(10, -9)>Math.pow(10, -6)){
-                     cbVolume.setSelectedItem("microL");
-                     volume*=1000000.0;
-                 } 
-             
-             //checking the range and displaying the value in the textfield
-             if (volume>=1000.0 || volume+5.0*Math.pow(10, -9)<=Math.pow(10, -6)){
-                lblMessageBar.setText("The result (Volume) is out of the display limits!");
+            if (volume + 0.005 > 1.0) {
+                cbVolume.setSelectedItem("L");
+            } else if (volume + 5.0 * Math.pow(10, -6) > 0.001) {
+                cbVolume.setSelectedItem("mL");
+                volume *= 1000.0;
+            } else if (volume + 5.0 * Math.pow(10, -9) > Math.pow(10, -6)) {
+                cbVolume.setSelectedItem("microL");
+                volume *= 1000000.0;
             }
-             else {
-                 lblMessageBar.setText("Here you go!");
-                 if (chbEuropeFriendly.isSelected()){
-                        txtVolume.setText(df.format(volume));
-                    }
-                    else{
-                       String display=((df.format(volume)).replace(",", "."));
-                        txtVolume.setText(display);
-                    }
-             }
-        }
-        catch (NumberFormatException ex){
+
+            //checking the range and displaying the value in the textfield
+            if (volume >= 1000.0 || volume + 5.0 * Math.pow(10, -9) <= Math.pow(10, -6)) {
+                lblMessageBar.setText("The result (Volume) is out of the display limits!");
+            } else {
+                lblMessageBar.setText("Here you go!");
+                if (chbEuropeFriendly.isSelected()) {
+                    txtVolume.setText(df.format(volume));
+                } else {
+                    String display = ((df.format(volume)).replace(",", "."));
+                    txtVolume.setText(display);
+                }
+            }
+        } catch (NumberFormatException ex) {
             lblMessageBar.setText("<html>Invalid data in at least one of the fields!<br>"
                     + "Maybe you are using commas as decimal separators?");
         }
-        
+
     }
+
     /**
-     * Method to calculate the concentration if weight, mw and volume are given. 
+     * Method to calculate the concentration if weight, mw and volume are given.
      */
-    public void calcConc(){
-        try{
-            String weightText=txtWeight.getText();
-            String mwText=txtMW.getText();
-            String volumeText=txtVolume.getText();
+    public void calcConc() {
+        try {
+            String weightText = txtWeight.getText();
+            String mwText = txtMW.getText();
+            String volumeText = txtVolume.getText();
             String weightIn;
             String mwIn;
             String volumeIn;
-            
+
             //implementing the Europe-friendly option
-            if (chbEuropeFriendly.isSelected()){
-                weightIn = weightText.replace(",",".");
-                mwIn=mwText.replace(",",".");
-                volumeIn=volumeText.replace(",","."); 
-            }
-            else {
+            if (chbEuropeFriendly.isSelected()) {
+                weightIn = weightText.replace(",", ".");
+                mwIn = mwText.replace(",", ".");
+                volumeIn = volumeText.replace(",", ".");
+            } else {
                 weightIn = weightText;
-                mwIn=mwText;
-                volumeIn=volumeText; 
+                mwIn = mwText;
+                volumeIn = volumeText;
             }
             //getting the numbers for the calculation
-            double weight=Double.parseDouble(weightIn);
-            double mw=Double.parseDouble(mwIn);
-            double volume=Double.parseDouble(volumeIn);
-            
+            double weight = Double.parseDouble(weightIn);
+            double mw = Double.parseDouble(mwIn);
+            double volume = Double.parseDouble(volumeIn);
+
             //getting the real weight
-            String weightUnit=(String) cbWeight.getSelectedItem();
+            String weightUnit = (String) cbWeight.getSelectedItem();
             double weightFactor;
-            switch (weightUnit){
-                case "kg": 
-                    weightFactor=1000.0;
+            switch (weightUnit) {
+                case "kg":
+                    weightFactor = 1000.0;
                     break;
                 case "mg":
-                    weightFactor=0.001;
+                    weightFactor = 0.001;
                     break;
                 case "microg":
-                    weightFactor=0.000001;
+                    weightFactor = 0.000001;
                     break;
                 default:
-                    weightFactor=1.0;
+                    weightFactor = 1.0;
             }
-            weight*=weightFactor;
-            
+            weight *= weightFactor;
+
             //getting the real volume
-            String volUnit=(String) cbVolume.getSelectedItem();
+            String volUnit = (String) cbVolume.getSelectedItem();
             double volFactor;
-            switch(volUnit){
+            switch (volUnit) {
                 case "mL":
-                    volFactor=0.001;
+                    volFactor = 0.001;
                     break;
                 case "microL":
-                    volFactor=0.000001;
+                    volFactor = 0.000001;
                     break;
-                default: 
-                    volFactor=1.0;
+                default:
+                    volFactor = 1.0;
             }
-            volume*=volFactor;
-            
+            volume *= volFactor;
+
             //calculating conc
-            double conc=weight/(mw*volume);
-            
+            double conc = weight / (mw * volume);
+
             //finding the adequate unit for the cc
-                 if (conc+0.005>1.0){
-                    cbConc.setSelectedItem("M");
-                }
-                else if (conc+5.0*Math.pow(10, -6) >0.001){
-                    cbConc.setSelectedItem("mM");
-                    conc*=1000.0;
-                }
-                else if (conc+5.0*Math.pow(10, -9)>Math.pow(10, -6)){
-                    cbConc.setSelectedItem("microM");
-                    conc*=Math.pow(10, 6);
-                }
-                else if (conc+5.0*Math.pow(10, -12)>Math.pow(10, -9)){
-                    cbConc.setSelectedItem("nanoM");
-                    conc*=Math.pow(10, 9);
-                }
-                else if (conc+5.0*Math.pow(10, -15)>Math.pow(10,-12)) {
-                    cbConc.setSelectedItem("picoM");
-                    conc*=Math.pow(10, 12);
-                }
-            
-            
-            //checking the range and displaying the value in the cc text field
-            if (conc>=1000.0 || conc+5.0*Math.pow(10, -15)<=Math.pow(10, -12)){
-                lblMessageBar.setText("The result (Concentration) is out of the display limits");
+            if (conc + 0.005 > 1.0) {
+                cbConc.setSelectedItem("M");
+            } else if (conc + 5.0 * Math.pow(10, -6) > 0.001) {
+                cbConc.setSelectedItem("mM");
+                conc *= 1000.0;
+            } else if (conc + 5.0 * Math.pow(10, -9) > Math.pow(10, -6)) {
+                cbConc.setSelectedItem("microM");
+                conc *= Math.pow(10, 6);
+            } else if (conc + 5.0 * Math.pow(10, -12) > Math.pow(10, -9)) {
+                cbConc.setSelectedItem("nanoM");
+                conc *= Math.pow(10, 9);
+            } else if (conc + 5.0 * Math.pow(10, -15) > Math.pow(10, -12)) {
+                cbConc.setSelectedItem("picoM");
+                conc *= Math.pow(10, 12);
             }
-            else {
+
+            //checking the range and displaying the value in the cc text field
+            if (conc >= 1000.0 || conc + 5.0 * Math.pow(10, -15) <= Math.pow(10, -12)) {
+                lblMessageBar.setText("The result (Concentration) is out of the display limits");
+            } else {
                 lblMessageBar.setText("Here you go!");
-                if (chbEuropeFriendly.isSelected()){
-                        txtConc.setText(df.format(conc));
-                    }
-                    else{
-                       String display=((df.format(conc)).replace(",", "."));
-                        txtConc.setText(display);
-                    } 
-        }
-        }
-        
-        catch (NumberFormatException ex){
+                if (chbEuropeFriendly.isSelected()) {
+                    txtConc.setText(df.format(conc));
+                } else {
+                    String display = ((df.format(conc)).replace(",", "."));
+                    txtConc.setText(display);
+                }
+            }
+        } catch (NumberFormatException ex) {
             lblMessageBar.setText("<html>Invalid data in at least one of the fields!<br>"
                     + "Maybe you are using commas as decimal separators?");
         }
     }
-    
+
     /**
      * Method to calculate stockV, if stockCc, finalV and finalCc are given
      */
-    public void calcStockV(){
-        try{
-        String stockCctxt=txtStockcc.getText();
-        String finalVtxt=txtFinalV.getText();
-        String finalCctxt=txtFinalcc.getText();
-        String stockCcIn;
-        String finalVIn;
-        String finalCcIn;
-        
-         //implementing the Europe-friendly option
-            if (chbEuropeFriendly.isSelected()){
-                stockCcIn = stockCctxt.replace(",",".");
-                finalVIn=finalVtxt.replace(",",".");
-                finalCcIn=finalCctxt.replace(",","."); 
-            }
-            else {
+    public void calcStockV() {
+        try {
+            String stockCctxt = txtStockcc.getText();
+            String finalVtxt = txtFinalV.getText();
+            String finalCctxt = txtFinalcc.getText();
+            String stockCcIn;
+            String finalVIn;
+            String finalCcIn;
+
+            //implementing the Europe-friendly option
+            if (chbEuropeFriendly.isSelected()) {
+                stockCcIn = stockCctxt.replace(",", ".");
+                finalVIn = finalVtxt.replace(",", ".");
+                finalCcIn = finalCctxt.replace(",", ".");
+            } else {
                 stockCcIn = stockCctxt;
-                finalVIn=finalVtxt;
-                finalCcIn=finalCctxt; 
+                finalVIn = finalVtxt;
+                finalCcIn = finalCctxt;
             }
-           
-         //getting the numbers for the calculation
-         double stockCc=Double.parseDouble(stockCcIn);
-         double finalV=Double.parseDouble(finalVIn);
-         double finalCc=Double.parseDouble(finalCcIn);
-         
-         //getting the real stockCc
-         String stockCcUnit=(String) cbStockcc.getSelectedItem();
-         double stockCcFactor;
-         switch (stockCcUnit){
-             case "mM":
-                 stockCcFactor=0.001;
-                 break;
-             case "microM":
-                 stockCcFactor=Math.pow(10, -6);
-                 break;
-             case "nanoM":
-                 stockCcFactor=Math.pow(10, -9);
-                 break;    
-             case "picoM":
-                 stockCcFactor=Math.pow(10, -12);
-                 break;  
-             default: 
-                 stockCcFactor=1.0;
-         }
-         stockCc*=stockCcFactor;
-         
-         //getting the real finalV
-         String finalVUnit=(String) cbFinalV.getSelectedItem();
-         double finalVfactor;
-         switch (finalVUnit){
-             case "mL":
-                 finalVfactor=0.001;
-                 break;
-             case "microL":
-                 finalVfactor=0.000001;
-                 break;
-             default: 
-                 finalVfactor=1.0;
-         }
-         finalV*=finalVfactor;
-         
-         //getting the real finalCc
-         String finalCcUnit=(String) cbFinalcc.getSelectedItem();
-         double finalCcFactor;
-         switch (finalCcUnit){
-             case "mM":
-                 finalCcFactor=0.001;
-                 break;
-             case "microM":
-                 finalCcFactor=Math.pow(10, -6);
-                 break;
-             case "nanoM":
-                 finalCcFactor=Math.pow(10, -9);
-                 break;    
-             case "picoM":
-                 finalCcFactor=Math.pow(10, -12);
-                 break;  
-             default: 
-                 finalCcFactor=1.0;
-         }
-         finalCc*=finalCcFactor;
-         
-         //making the calculation
-         double stockV=(finalCc*finalV)/stockCc;
-         
-         //finding the adequate unit for the stockV
-         if (stockV+0.005>1.0){
-             cbStockV.setSelectedItem("L");
-         }
-         else if (stockV+5.0*Math.pow(10, -6)>0.001){
-             cbStockV.setSelectedItem("mL");
-             stockV*=1000.0;
-         }
-         else if (stockV+5.0*Math.pow(10, -9)>Math.pow(10, -6)){
-             cbStockV.setSelectedItem("microL");
-             stockV*=1000000.0;
-         }
-         
-         //checking the range and displaying the stockV
-         if (stockV>=1000.0 || stockV+5.0*Math.pow(10, -9)<=Math.pow(10, -6)){
+
+            //getting the numbers for the calculation
+            double stockCc = Double.parseDouble(stockCcIn);
+            double finalV = Double.parseDouble(finalVIn);
+            double finalCc = Double.parseDouble(finalCcIn);
+
+            //getting the real stockCc
+            String stockCcUnit = (String) cbStockcc.getSelectedItem();
+            double stockCcFactor;
+            switch (stockCcUnit) {
+                case "mM":
+                    stockCcFactor = 0.001;
+                    break;
+                case "microM":
+                    stockCcFactor = Math.pow(10, -6);
+                    break;
+                case "nanoM":
+                    stockCcFactor = Math.pow(10, -9);
+                    break;
+                case "picoM":
+                    stockCcFactor = Math.pow(10, -12);
+                    break;
+                default:
+                    stockCcFactor = 1.0;
+            }
+            stockCc *= stockCcFactor;
+
+            //getting the real finalV
+            String finalVUnit = (String) cbFinalV.getSelectedItem();
+            double finalVfactor;
+            switch (finalVUnit) {
+                case "mL":
+                    finalVfactor = 0.001;
+                    break;
+                case "microL":
+                    finalVfactor = 0.000001;
+                    break;
+                default:
+                    finalVfactor = 1.0;
+            }
+            finalV *= finalVfactor;
+
+            //getting the real finalCc
+            String finalCcUnit = (String) cbFinalcc.getSelectedItem();
+            double finalCcFactor;
+            switch (finalCcUnit) {
+                case "mM":
+                    finalCcFactor = 0.001;
+                    break;
+                case "microM":
+                    finalCcFactor = Math.pow(10, -6);
+                    break;
+                case "nanoM":
+                    finalCcFactor = Math.pow(10, -9);
+                    break;
+                case "picoM":
+                    finalCcFactor = Math.pow(10, -12);
+                    break;
+                default:
+                    finalCcFactor = 1.0;
+            }
+            finalCc *= finalCcFactor;
+
+            //making the calculation
+            double stockV = (finalCc * finalV) / stockCc;
+
+            //finding the adequate unit for the stockV
+            if (stockV + 0.005 > 1.0) {
+                cbStockV.setSelectedItem("L");
+            } else if (stockV + 5.0 * Math.pow(10, -6) > 0.001) {
+                cbStockV.setSelectedItem("mL");
+                stockV *= 1000.0;
+            } else if (stockV + 5.0 * Math.pow(10, -9) > Math.pow(10, -6)) {
+                cbStockV.setSelectedItem("microL");
+                stockV *= 1000000.0;
+            }
+
+            //checking the range and displaying the stockV
+            if (stockV >= 1000.0 || stockV + 5.0 * Math.pow(10, -9) <= Math.pow(10, -6)) {
                 lblMessageBar.setText("The result (Stock volume) is out of the display limits");
-            }
-            else {
+            } else {
                 //lblMessageBar.setText("Here you go!");
-                if (chbEuropeFriendly.isSelected()){
-                        txtStockV.setText(df.format(stockV));
-                    }
-                    else{
-                       String display=((df.format(stockV)).replace(",", "."));
-                        txtStockV.setText(display);
-                    } 
-        }
-         }
-   
-    catch (NumberFormatException ex){
+                if (chbEuropeFriendly.isSelected()) {
+                    txtStockV.setText(df.format(stockV));
+                } else {
+                    String display = ((df.format(stockV)).replace(",", "."));
+                    txtStockV.setText(display);
+                }
+            }
+        } catch (NumberFormatException ex) {
             lblMessageBar.setText("<html>Invalid data in at least one of the fields!<br>"
                     + "Maybe you are using commas as decimal separators?");
         }
     }
-    
+
     /**
      * Method to calculate the stockCc, if stockV, finalV and finalCc are given
      */
-    public void calcStockCc(){
-        try{
-        String stockVtxt=txtStockV.getText();
-        String finalVtxt=txtFinalV.getText();
-        String finalCctxt=txtFinalcc.getText();
-        String stockVIn;
-        String finalVIn;
-        String finalCcIn;
-        
-        //implementing the Europe-friendly option
-            if (chbEuropeFriendly.isSelected()){
-                stockVIn = stockVtxt.replace(",",".");
-                finalVIn=finalVtxt.replace(",",".");
-                finalCcIn=finalCctxt.replace(",","."); 
-            }
-            else {
+    public void calcStockCc() {
+        try {
+            String stockVtxt = txtStockV.getText();
+            String finalVtxt = txtFinalV.getText();
+            String finalCctxt = txtFinalcc.getText();
+            String stockVIn;
+            String finalVIn;
+            String finalCcIn;
+
+            //implementing the Europe-friendly option
+            if (chbEuropeFriendly.isSelected()) {
+                stockVIn = stockVtxt.replace(",", ".");
+                finalVIn = finalVtxt.replace(",", ".");
+                finalCcIn = finalCctxt.replace(",", ".");
+            } else {
                 stockVIn = stockVtxt;
-                finalVIn=finalVtxt;
-                finalCcIn=finalCctxt; 
+                finalVIn = finalVtxt;
+                finalCcIn = finalCctxt;
             }
-        
-             //getting the numbers for the calculation
-         double stockV=Double.parseDouble(stockVIn);
-         double finalV=Double.parseDouble(finalVIn);
-         double finalCc=Double.parseDouble(finalCcIn);
-        
-          //getting the real stockV
-         String stockVUnit=(String) cbStockV.getSelectedItem();
-         double stockVfactor;
-         switch (stockVUnit){
-             case "mL":
-                 stockVfactor=0.001;
-                 break;
-             case "microL":
-                 stockVfactor=0.000001;
-                 break;
-             default: 
-                 stockVfactor=1.0;
-         }
-         stockV*=stockVfactor;
-         
-          //getting the real finalV
-         String finalVUnit=(String) cbFinalV.getSelectedItem();
-         double finalVfactor;
-         switch (finalVUnit){
-             case "mL":
-                 finalVfactor=0.001;
-                 break;
-             case "microL":
-                 finalVfactor=0.000001;
-                 break;
-             default: 
-                 finalVfactor=1.0;
-         }
-         finalV*=finalVfactor;
-         
-         //getting the real finalCc
-         String finalCcUnit=(String) cbFinalcc.getSelectedItem();
-         double finalCcFactor;
-         switch (finalCcUnit){
-             case "mM":
-                 finalCcFactor=0.001;
-                 break;
-             case "microM":
-                 finalCcFactor=Math.pow(10, -6);
-                 break;
-             case "nanoM":
-                 finalCcFactor=Math.pow(10, -9);
-                 break;    
-             case "picoM":
-                 finalCcFactor=Math.pow(10, -12);
-                 break;  
-             default: 
-                 finalCcFactor=1.0;
-         }
-         finalCc*=finalCcFactor;   
-         
-         //making the calculation
-         double stockCc=(finalCc*finalV)/stockV;
-         
-         //finding the adeqaue unit for the stockCc
-         if (stockCc+0.005>1.0){
-             cbStockcc.setSelectedItem("L");
-         }
-         else if (stockCc+5.0*Math.pow(10, -6)>0.001){
-             cbStockcc.setSelectedItem("mM");
-             stockCc*=1000.0;
-         }
-         else if (stockCc+5.0*Math.pow(10, -9)>Math.pow(10, -6)){
-             cbStockcc.setSelectedItem("microM");
-             stockCc*=Math.pow(10, 6);
-         }
-         else if (stockCc+5.0*Math.pow(10, -12)>Math.pow(10, -9)){
-             cbStockcc.setSelectedItem("nanoM");
-             stockCc*=Math.pow(10, 9);
-         }
-         else if (stockCc+5.0*Math.pow(10, -15)>Math.pow(10, -12)){
-             cbStockcc.setSelectedItem("picoM");
-             stockCc*=Math.pow(10, 12);
-         }
-         
-         //checking the range and displaying the stockV
-         if (stockCc>=1000.0 || stockCc+5.0*Math.pow(10, -15)<=Math.pow(10, -12)){
+
+            //getting the numbers for the calculation
+            double stockV = Double.parseDouble(stockVIn);
+            double finalV = Double.parseDouble(finalVIn);
+            double finalCc = Double.parseDouble(finalCcIn);
+
+            //getting the real stockV
+            String stockVUnit = (String) cbStockV.getSelectedItem();
+            double stockVfactor;
+            switch (stockVUnit) {
+                case "mL":
+                    stockVfactor = 0.001;
+                    break;
+                case "microL":
+                    stockVfactor = 0.000001;
+                    break;
+                default:
+                    stockVfactor = 1.0;
+            }
+            stockV *= stockVfactor;
+
+            //getting the real finalV
+            String finalVUnit = (String) cbFinalV.getSelectedItem();
+            double finalVfactor;
+            switch (finalVUnit) {
+                case "mL":
+                    finalVfactor = 0.001;
+                    break;
+                case "microL":
+                    finalVfactor = 0.000001;
+                    break;
+                default:
+                    finalVfactor = 1.0;
+            }
+            finalV *= finalVfactor;
+
+            //getting the real finalCc
+            String finalCcUnit = (String) cbFinalcc.getSelectedItem();
+            double finalCcFactor;
+            switch (finalCcUnit) {
+                case "mM":
+                    finalCcFactor = 0.001;
+                    break;
+                case "microM":
+                    finalCcFactor = Math.pow(10, -6);
+                    break;
+                case "nanoM":
+                    finalCcFactor = Math.pow(10, -9);
+                    break;
+                case "picoM":
+                    finalCcFactor = Math.pow(10, -12);
+                    break;
+                default:
+                    finalCcFactor = 1.0;
+            }
+            finalCc *= finalCcFactor;
+
+            //making the calculation
+            double stockCc = (finalCc * finalV) / stockV;
+
+            //finding the adeqaue unit for the stockCc
+            if (stockCc + 0.005 > 1.0) {
+                cbStockcc.setSelectedItem("L");
+            } else if (stockCc + 5.0 * Math.pow(10, -6) > 0.001) {
+                cbStockcc.setSelectedItem("mM");
+                stockCc *= 1000.0;
+            } else if (stockCc + 5.0 * Math.pow(10, -9) > Math.pow(10, -6)) {
+                cbStockcc.setSelectedItem("microM");
+                stockCc *= Math.pow(10, 6);
+            } else if (stockCc + 5.0 * Math.pow(10, -12) > Math.pow(10, -9)) {
+                cbStockcc.setSelectedItem("nanoM");
+                stockCc *= Math.pow(10, 9);
+            } else if (stockCc + 5.0 * Math.pow(10, -15) > Math.pow(10, -12)) {
+                cbStockcc.setSelectedItem("picoM");
+                stockCc *= Math.pow(10, 12);
+            }
+
+            //checking the range and displaying the stockV
+            if (stockCc >= 1000.0 || stockCc + 5.0 * Math.pow(10, -15) <= Math.pow(10, -12)) {
                 lblMessageBar.setText("The result (Stock cc) is out of the display limits");
-            }
-            else {
+            } else {
                 lblMessageBar.setText("Here you go!");
-                if (chbEuropeFriendly.isSelected()){
-                        txtStockcc.setText(df.format(stockCc));
-                    }
-                    else{
-                       String display=((df.format(stockCc)).replace(",", "."));
-                        txtStockcc.setText(display);
-                    } 
-        }
-        }
-        
-       catch (NumberFormatException ex){
+                if (chbEuropeFriendly.isSelected()) {
+                    txtStockcc.setText(df.format(stockCc));
+                } else {
+                    String display = ((df.format(stockCc)).replace(",", "."));
+                    txtStockcc.setText(display);
+                }
+            }
+        } catch (NumberFormatException ex) {
             lblMessageBar.setText("<html>Invalid data in at least one of the fields!<br>"
                     + "Maybe you are using commas as decimal separators?");
-        } 
+        }
     }
-    
-    
+
     /**
-     * Method to calculate finalV, if stockV, stockCc and finalCc are given. 
+     * Method to calculate finalV, if stockV, stockCc and finalCc are given.
      */
-    public void calcFinalV(){
-        try{
-        String stockCctxt=txtStockcc.getText();
-        String stockVtxt=txtStockV.getText();
-        String finalCctxt=txtFinalcc.getText();
-        String stockCcIn;
-        String stockVIn;
-        String finalCcIn;
-        
-         //implementing the Europe-friendly option
-            if (chbEuropeFriendly.isSelected()){
-                stockCcIn = stockCctxt.replace(",",".");
-                stockVIn=stockVtxt.replace(",",".");
-                finalCcIn=finalCctxt.replace(",","."); 
-            }
-            else {
+    public void calcFinalV() {
+        try {
+            String stockCctxt = txtStockcc.getText();
+            String stockVtxt = txtStockV.getText();
+            String finalCctxt = txtFinalcc.getText();
+            String stockCcIn;
+            String stockVIn;
+            String finalCcIn;
+
+            //implementing the Europe-friendly option
+            if (chbEuropeFriendly.isSelected()) {
+                stockCcIn = stockCctxt.replace(",", ".");
+                stockVIn = stockVtxt.replace(",", ".");
+                finalCcIn = finalCctxt.replace(",", ".");
+            } else {
                 stockCcIn = stockCctxt;
-                stockVIn=stockVtxt;
-                finalCcIn=finalCctxt; 
-            }
-           
-         //getting the numbers for the calculation
-         double stockCc=Double.parseDouble(stockCcIn);
-         double stockV=Double.parseDouble(stockVIn);
-         double finalCc=Double.parseDouble(finalCcIn);
-         
-         //getting the real stockCc
-         String stockCcUnit=(String) cbStockcc.getSelectedItem();
-         double stockCcFactor;
-         switch (stockCcUnit){
-             case "mM":
-                 stockCcFactor=0.001;
-                 break;
-             case "microM":
-                 stockCcFactor=Math.pow(10, -6);
-                 break;
-             case "nanoM":
-                 stockCcFactor=Math.pow(10, -9);
-                 break;    
-             case "picoM":
-                 stockCcFactor=Math.pow(10, -12);
-                 break;  
-             default: 
-                 stockCcFactor=1.0;
-         }
-         stockCc*=stockCcFactor;
-         
-         //getting the real stockV
-         String stockVUnit=(String) cbStockV.getSelectedItem();
-         double stockVfactor;
-         switch (stockVUnit){
-             case "mL":
-                 stockVfactor=0.001;
-                 break;
-             case "microL":
-                 stockVfactor=0.000001;
-                 break;
-             default: 
-                 stockVfactor=1.0;
-         }
-         stockV*=stockVfactor;
-         
-         //getting the real finalCc
-         String finalCcUnit=(String) cbFinalcc.getSelectedItem();
-         double finalCcFactor;
-         switch (finalCcUnit){
-             case "mM":
-                 finalCcFactor=0.001;
-                 break;
-             case "microM":
-                 finalCcFactor=Math.pow(10, -6);
-                 break;
-             case "nanoM":
-                 finalCcFactor=Math.pow(10, -9);
-                 break;    
-             case "picoM":
-                 finalCcFactor=Math.pow(10, -12);
-                 break;  
-             default: 
-                 finalCcFactor=1.0;
-         }
-         finalCc*=finalCcFactor;
-         
-         //making the calculation
-         double finalV=(stockCc*stockV)/finalCc;
-         
-         //finding the adequate unit for the finalV
-         if (finalV+0.005>1.0){
-             cbFinalV.setSelectedItem("L");
-         }
-         else if (finalV+5.0*Math.pow(10, -6)>0.001){
-             cbFinalV.setSelectedItem("mL");
-             finalV*=1000.0;
-         }
-         else if (finalV+5.0*Math.pow(10, -9)>Math.pow(10, -6)){
-             cbFinalV.setSelectedItem("microL");
-             finalV*=1000000.0;
-         }
-         
-         //checking the range and displaying the finalV
-         if (finalV>=1000.0 || finalV+5.0*Math.pow(10, -9)<=Math.pow(10, -6)){
-                lblMessageBar.setText("The result (Final volume) is out of the display limits");
-            }
-            else {
-                //lblMessageBar.setText("Here you go!");
-                if (chbEuropeFriendly.isSelected()){
-                        txtFinalV.setText(df.format(finalV));
-                    }
-                    else{
-                       String display=((df.format(finalV)).replace(",", "."));
-                        txtFinalV.setText(display);
-                    } 
-        }
-         }
-   
-    catch (NumberFormatException ex){
-            lblMessageBar.setText("<html>Invalid data in at least one of the fields!<br>"
-                    + "Maybe you are using commas as decimal separators?");
-        }
-    }
-    
-    /**
- * Method to calculate finalCc, if stockV, stockCc and finalV are given. 
- */
-    public void calcFinalCc(){
-        try{
-        String stockVtxt=txtStockV.getText();
-        String finalVtxt=txtFinalV.getText();
-        String stockCctxt=txtStockcc.getText();
-        String stockVIn;
-        String finalVIn;
-        String stockCcIn;
-        
-        //implementing the Europe-friendly option
-            if (chbEuropeFriendly.isSelected()){
-                stockVIn = stockVtxt.replace(",",".");
-                finalVIn=finalVtxt.replace(",",".");
-                stockCcIn=stockCctxt.replace(",","."); 
-            }
-            else {
                 stockVIn = stockVtxt;
-                finalVIn=finalVtxt;
-                stockCcIn=stockCctxt; 
+                finalCcIn = finalCctxt;
             }
-        
-             //getting the numbers for the calculation
-         double stockV=Double.parseDouble(stockVIn);
-         double finalV=Double.parseDouble(finalVIn);
-         double stockCc=Double.parseDouble(stockCcIn);
-        
-          //getting the real stockV
-         String stockVUnit=(String) cbStockV.getSelectedItem();
-         double stockVfactor;
-         switch (stockVUnit){
-             case "mL":
-                 stockVfactor=0.001;
-                 break;
-             case "microL":
-                 stockVfactor=0.000001;
-                 break;
-             default: 
-                 stockVfactor=1.0;
-         }
-         stockV*=stockVfactor;
-         
-          //getting the real finalV
-         String finalVUnit=(String) cbFinalV.getSelectedItem();
-         double finalVfactor;
-         switch (finalVUnit){
-             case "mL":
-                 finalVfactor=0.001;
-                 break;
-             case "microL":
-                 finalVfactor=0.000001;
-                 break;
-             default: 
-                 finalVfactor=1.0;
-         }
-         finalV*=finalVfactor;
-         
-         //getting the real stockCc
-         String stockCcUnit=(String) cbStockcc.getSelectedItem();
-         double stockCcFactor;
-         switch (stockCcUnit){
-             case "mM":
-                 stockCcFactor=0.001;
-                 break;
-             case "microM":
-                 stockCcFactor=Math.pow(10, -6);
-                 break;
-             case "nanoM":
-                 stockCcFactor=Math.pow(10, -9);
-                 break;    
-             case "picoM":
-                 stockCcFactor=Math.pow(10, -12);
-                 break;  
-             default: 
-                 stockCcFactor=1.0;
-         }
-         stockCc*=stockCcFactor;   
-         
-         //making the calculation
-         double finalCc=(stockCc*stockV)/finalV;
-         
-         //finding the adeqaue unit for the finalCc
-         if (finalCc+0.005>1.0){
-             cbFinalcc.setSelectedItem("L");
-         }
-         else if (finalCc+5.0*Math.pow(10, -6)>0.001){
-             cbFinalcc.setSelectedItem("mM");
-             finalCc*=1000.0;
-         }
-         else if (finalCc+5.0*Math.pow(10, -9)>Math.pow(10, -6)){
-             cbFinalcc.setSelectedItem("microM");
-             finalCc*=Math.pow(10, 6);
-         }
-         else if (finalCc+5.0*Math.pow(10, -12)>Math.pow(10, -9)){
-             cbFinalcc.setSelectedItem("nanoM");
-             finalCc*=Math.pow(10, 9);
-         }
-         else if (finalCc+5.0*Math.pow(10, -15)>Math.pow(10, -12)){
-             cbFinalcc.setSelectedItem("picoM");
-             finalCc*=Math.pow(10, 12);
-         }
-         
-         //checking the range and displaying the finalCc
-         if (finalCc>=1000.0 || finalCc+5.0*Math.pow(10, -15)<=Math.pow(10, -12)){
-                lblMessageBar.setText("The result (Final cc) is out of the display limits");
+
+            //getting the numbers for the calculation
+            double stockCc = Double.parseDouble(stockCcIn);
+            double stockV = Double.parseDouble(stockVIn);
+            double finalCc = Double.parseDouble(finalCcIn);
+
+            //getting the real stockCc
+            String stockCcUnit = (String) cbStockcc.getSelectedItem();
+            double stockCcFactor;
+            switch (stockCcUnit) {
+                case "mM":
+                    stockCcFactor = 0.001;
+                    break;
+                case "microM":
+                    stockCcFactor = Math.pow(10, -6);
+                    break;
+                case "nanoM":
+                    stockCcFactor = Math.pow(10, -9);
+                    break;
+                case "picoM":
+                    stockCcFactor = Math.pow(10, -12);
+                    break;
+                default:
+                    stockCcFactor = 1.0;
             }
-            else {
-                lblMessageBar.setText("Here you go!");
-                if (chbEuropeFriendly.isSelected()){
-                        txtFinalcc.setText(df.format(finalCc));
-                    }
-                    else{
-                       String display=((df.format(finalCc)).replace(",", "."));
-                        txtFinalcc.setText(display);
-                    } 
-        }
-        }
-        
-       catch (NumberFormatException ex){
+            stockCc *= stockCcFactor;
+
+            //getting the real stockV
+            String stockVUnit = (String) cbStockV.getSelectedItem();
+            double stockVfactor;
+            switch (stockVUnit) {
+                case "mL":
+                    stockVfactor = 0.001;
+                    break;
+                case "microL":
+                    stockVfactor = 0.000001;
+                    break;
+                default:
+                    stockVfactor = 1.0;
+            }
+            stockV *= stockVfactor;
+
+            //getting the real finalCc
+            String finalCcUnit = (String) cbFinalcc.getSelectedItem();
+            double finalCcFactor;
+            switch (finalCcUnit) {
+                case "mM":
+                    finalCcFactor = 0.001;
+                    break;
+                case "microM":
+                    finalCcFactor = Math.pow(10, -6);
+                    break;
+                case "nanoM":
+                    finalCcFactor = Math.pow(10, -9);
+                    break;
+                case "picoM":
+                    finalCcFactor = Math.pow(10, -12);
+                    break;
+                default:
+                    finalCcFactor = 1.0;
+            }
+            finalCc *= finalCcFactor;
+
+            //making the calculation
+            double finalV = (stockCc * stockV) / finalCc;
+
+            //finding the adequate unit for the finalV
+            if (finalV + 0.005 > 1.0) {
+                cbFinalV.setSelectedItem("L");
+            } else if (finalV + 5.0 * Math.pow(10, -6) > 0.001) {
+                cbFinalV.setSelectedItem("mL");
+                finalV *= 1000.0;
+            } else if (finalV + 5.0 * Math.pow(10, -9) > Math.pow(10, -6)) {
+                cbFinalV.setSelectedItem("microL");
+                finalV *= 1000000.0;
+            }
+
+            //checking the range and displaying the finalV
+            if (finalV >= 1000.0 || finalV + 5.0 * Math.pow(10, -9) <= Math.pow(10, -6)) {
+                lblMessageBar.setText("The result (Final volume) is out of the display limits");
+            } else {
+                //lblMessageBar.setText("Here you go!");
+                if (chbEuropeFriendly.isSelected()) {
+                    txtFinalV.setText(df.format(finalV));
+                } else {
+                    String display = ((df.format(finalV)).replace(",", "."));
+                    txtFinalV.setText(display);
+                }
+            }
+        } catch (NumberFormatException ex) {
             lblMessageBar.setText("<html>Invalid data in at least one of the fields!<br>"
                     + "Maybe you are using commas as decimal separators?");
-        } 
-        
-    }
-    
-    private void writeTextFile(Path p, String content){
-        
-        try (BufferedWriter bw = Files.newBufferedWriter(p)) {
-                bw.write(content);
         }
-        
-        catch (IOException ex){
+    }
+
+    /**
+     * Method to calculate finalCc, if stockV, stockCc and finalV are given.
+     */
+    public void calcFinalCc() {
+        try {
+            String stockVtxt = txtStockV.getText();
+            String finalVtxt = txtFinalV.getText();
+            String stockCctxt = txtStockcc.getText();
+            String stockVIn;
+            String finalVIn;
+            String stockCcIn;
+
+            //implementing the Europe-friendly option
+            if (chbEuropeFriendly.isSelected()) {
+                stockVIn = stockVtxt.replace(",", ".");
+                finalVIn = finalVtxt.replace(",", ".");
+                stockCcIn = stockCctxt.replace(",", ".");
+            } else {
+                stockVIn = stockVtxt;
+                finalVIn = finalVtxt;
+                stockCcIn = stockCctxt;
+            }
+
+            //getting the numbers for the calculation
+            double stockV = Double.parseDouble(stockVIn);
+            double finalV = Double.parseDouble(finalVIn);
+            double stockCc = Double.parseDouble(stockCcIn);
+
+            //getting the real stockV
+            String stockVUnit = (String) cbStockV.getSelectedItem();
+            double stockVfactor;
+            switch (stockVUnit) {
+                case "mL":
+                    stockVfactor = 0.001;
+                    break;
+                case "microL":
+                    stockVfactor = 0.000001;
+                    break;
+                default:
+                    stockVfactor = 1.0;
+            }
+            stockV *= stockVfactor;
+
+            //getting the real finalV
+            String finalVUnit = (String) cbFinalV.getSelectedItem();
+            double finalVfactor;
+            switch (finalVUnit) {
+                case "mL":
+                    finalVfactor = 0.001;
+                    break;
+                case "microL":
+                    finalVfactor = 0.000001;
+                    break;
+                default:
+                    finalVfactor = 1.0;
+            }
+            finalV *= finalVfactor;
+
+            //getting the real stockCc
+            String stockCcUnit = (String) cbStockcc.getSelectedItem();
+            double stockCcFactor;
+            switch (stockCcUnit) {
+                case "mM":
+                    stockCcFactor = 0.001;
+                    break;
+                case "microM":
+                    stockCcFactor = Math.pow(10, -6);
+                    break;
+                case "nanoM":
+                    stockCcFactor = Math.pow(10, -9);
+                    break;
+                case "picoM":
+                    stockCcFactor = Math.pow(10, -12);
+                    break;
+                default:
+                    stockCcFactor = 1.0;
+            }
+            stockCc *= stockCcFactor;
+
+            //making the calculation
+            double finalCc = (stockCc * stockV) / finalV;
+
+            //finding the adeqaue unit for the finalCc
+            if (finalCc + 0.005 > 1.0) {
+                cbFinalcc.setSelectedItem("L");
+            } else if (finalCc + 5.0 * Math.pow(10, -6) > 0.001) {
+                cbFinalcc.setSelectedItem("mM");
+                finalCc *= 1000.0;
+            } else if (finalCc + 5.0 * Math.pow(10, -9) > Math.pow(10, -6)) {
+                cbFinalcc.setSelectedItem("microM");
+                finalCc *= Math.pow(10, 6);
+            } else if (finalCc + 5.0 * Math.pow(10, -12) > Math.pow(10, -9)) {
+                cbFinalcc.setSelectedItem("nanoM");
+                finalCc *= Math.pow(10, 9);
+            } else if (finalCc + 5.0 * Math.pow(10, -15) > Math.pow(10, -12)) {
+                cbFinalcc.setSelectedItem("picoM");
+                finalCc *= Math.pow(10, 12);
+            }
+
+            //checking the range and displaying the finalCc
+            if (finalCc >= 1000.0 || finalCc + 5.0 * Math.pow(10, -15) <= Math.pow(10, -12)) {
+                lblMessageBar.setText("The result (Final cc) is out of the display limits");
+            } else {
+                lblMessageBar.setText("Here you go!");
+                if (chbEuropeFriendly.isSelected()) {
+                    txtFinalcc.setText(df.format(finalCc));
+                } else {
+                    String display = ((df.format(finalCc)).replace(",", "."));
+                    txtFinalcc.setText(display);
+                }
+            }
+        } catch (NumberFormatException ex) {
+            lblMessageBar.setText("<html>Invalid data in at least one of the fields!<br>"
+                    + "Maybe you are using commas as decimal separators?");
+        }
+
+    }
+
+    private void writeTextFile(Path p, String content) {
+
+        try (BufferedWriter bw = Files.newBufferedWriter(p)) {
+            bw.write(content);
+        } catch (IOException ex) {
             lblMessageBar.setText("Something went wrong when writing the file!");
         }
     }
@@ -1070,6 +1006,8 @@ public class MainWindow extends javax.swing.JFrame {
         btnClearSolid = new javax.swing.JButton();
         btnAddSolid = new javax.swing.JButton();
         btnAddClearSolid = new javax.swing.JButton();
+        lblSubstance = new javax.swing.JLabel();
+        lblSolvent = new javax.swing.JLabel();
         pnlLiquid = new javax.swing.JPanel();
         lblStockV = new javax.swing.JLabel();
         txtStockV = new javax.swing.JTextField();
@@ -1089,6 +1027,8 @@ public class MainWindow extends javax.swing.JFrame {
         btnAddClearLiquid = new javax.swing.JButton();
         btnClearLiquid = new javax.swing.JButton();
         btnAddLiquid = new javax.swing.JButton();
+        lblStock = new javax.swing.JLabel();
+        lblDiluent = new javax.swing.JLabel();
         btnSave = new javax.swing.JButton();
         txtNameSolution = new javax.swing.JTextField();
         chbEuropeFriendly = new javax.swing.JCheckBox();
@@ -1138,11 +1078,21 @@ public class MainWindow extends javax.swing.JFrame {
         lblConc.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblConc.setText("Concentration");
 
-        txtNameSubstance.setText("Name of substance");
+        txtNameSubstance.setText("Name (max 15 char)");
         txtNameSubstance.setEnabled(false);
+        txtNameSubstance.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                substanceReactClick(evt);
+            }
+        });
 
-        txtNameSolvent.setText("Name of solvent");
+        txtNameSolvent.setText("Name (max 15 char)");
         txtNameSolvent.setEnabled(false);
+        txtNameSolvent.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                solventReactClick(evt);
+            }
+        });
 
         btnCalcSolid.setText("CALCULATE");
         btnCalcSolid.addActionListener(new java.awt.event.ActionListener() {
@@ -1179,6 +1129,14 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        lblSubstance.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblSubstance.setText("Substance");
+        lblSubstance.setEnabled(false);
+
+        lblSolvent.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblSolvent.setText("Solvent");
+        lblSolvent.setEnabled(false);
+
         javax.swing.GroupLayout pnSolidLayout = new javax.swing.GroupLayout(pnSolid);
         pnSolid.setLayout(pnSolidLayout);
         pnSolidLayout.setHorizontalGroup(
@@ -1200,27 +1158,35 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGap(52, 52, 52)
                         .addGroup(pnSolidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnSolidLayout.createSequentialGroup()
-                                .addComponent(txtVolume, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbVolume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblVolume)
-                            .addComponent(txtNameSolvent, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
-                        .addGroup(pnSolidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(pnSolidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnSolidLayout.createSequentialGroup()
+                                        .addComponent(txtVolume, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cbVolume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblVolume))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                                .addGroup(pnSolidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnSolidLayout.createSequentialGroup()
+                                        .addComponent(txtConc, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cbConc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblConc))
+                                .addGap(24, 24, 24))
                             .addGroup(pnSolidLayout.createSequentialGroup()
-                                .addComponent(txtConc, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtNameSolvent, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbConc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblConc))
-                        .addGap(24, 24, 24))
+                                .addComponent(lblSolvent)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(pnSolidLayout.createSequentialGroup()
                         .addComponent(txtNameSubstance, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblSubstance)
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(pnSolidLayout.createSequentialGroup()
-                .addGap(76, 76, 76)
+                .addGap(79, 79, 79)
                 .addGroup(pnSolidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnCalcSolid, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
-                    .addComponent(btnAddSolid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCalcSolid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAddSolid, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(51, 51, 51)
                 .addGroup(pnSolidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAddClearSolid)
@@ -1248,8 +1214,10 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(pnSolidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNameSubstance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNameSolvent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
+                    .addComponent(txtNameSolvent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSubstance)
+                    .addComponent(lblSolvent))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(pnSolidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCalcSolid)
                     .addComponent(btnClearSolid))
@@ -1257,7 +1225,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(pnSolidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAddSolid)
                     .addComponent(btnAddClearSolid))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addGap(36, 36, 36))
         );
 
         tpCalculationArea.addTab("Solid", pnSolid);
@@ -1282,11 +1250,21 @@ public class MainWindow extends javax.swing.JFrame {
         lblFinalV.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblFinalV.setText("Final volume");
 
-        txtNameStock.setText("Name of stock");
+        txtNameStock.setText("Name (max 15 char)");
         txtNameStock.setEnabled(false);
+        txtNameStock.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                stockReactClick(evt);
+            }
+        });
 
-        txtNameDiluent.setText("Name of diluent");
+        txtNameDiluent.setText("Name (max 15 char)");
         txtNameDiluent.setEnabled(false);
+        txtNameDiluent.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                diluentReactClick(evt);
+            }
+        });
 
         btnCalcLiquid.setText("CALCULATE");
         btnCalcLiquid.addActionListener(new java.awt.event.ActionListener() {
@@ -1302,6 +1280,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         btnAddClearLiquid.setText("ADD and CLEAR");
         btnAddClearLiquid.setEnabled(false);
+        btnAddClearLiquid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddClearLiquidActionPerformed(evt);
+            }
+        });
 
         btnClearLiquid.setText("CLEAR");
         btnClearLiquid.addActionListener(new java.awt.event.ActionListener() {
@@ -1312,6 +1295,19 @@ public class MainWindow extends javax.swing.JFrame {
 
         btnAddLiquid.setText("ADD to Solution");
         btnAddLiquid.setEnabled(false);
+        btnAddLiquid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddLiquidActionPerformed(evt);
+            }
+        });
+
+        lblStock.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblStock.setText("Stock");
+        lblStock.setEnabled(false);
+
+        lblDiluent.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblDiluent.setText("Diluent");
+        lblDiluent.setEnabled(false);
 
         javax.swing.GroupLayout pnlLiquidLayout = new javax.swing.GroupLayout(pnlLiquid);
         pnlLiquid.setLayout(pnlLiquidLayout);
@@ -1333,37 +1329,40 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addComponent(cbStockV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(52, 52, 52)
                         .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblStockcc)
                             .addGroup(pnlLiquidLayout.createSequentialGroup()
                                 .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblStockcc)
-                                    .addGroup(pnlLiquidLayout.createSequentialGroup()
-                                        .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtStockcc, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtFinalcc, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(cbStockcc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(cbFinalcc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(45, 45, 45)
+                                    .addComponent(txtStockcc, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtFinalcc, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtNameStock, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtNameDiluent, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(cbStockcc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbFinalcc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(lblFinalcc)))
                     .addGroup(pnlLiquidLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(txtFinalV, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbFinalV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlLiquidLayout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnCalcLiquid, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
-                            .addComponent(btnAddLiquid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(36, 36, 36)
-                        .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnAddClearLiquid)
-                            .addComponent(btnClearLiquid, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(169, Short.MAX_VALUE))
+                        .addComponent(cbFinalV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtNameStock)
+                    .addComponent(txtNameDiluent, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblStock)
+                    .addComponent(lblDiluent))
+                .addGap(92, 92, 92))
+            .addGroup(pnlLiquidLayout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnCalcLiquid, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                    .addComponent(btnAddLiquid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(36, 36, 36)
+                .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAddClearLiquid)
+                    .addComponent(btnClearLiquid, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(332, Short.MAX_VALUE))
         );
         pnlLiquidLayout.setVerticalGroup(
             pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1374,22 +1373,30 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(lblStockcc))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtStockV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNameStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbStockV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtStockcc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbStockcc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblFinalV)
-                    .addComponent(lblFinalcc))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbFinalV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFinalcc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbFinalcc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNameDiluent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFinalV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlLiquidLayout.createSequentialGroup()
+                        .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtStockV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbStockV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtStockcc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbStockcc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblFinalV)
+                            .addComponent(lblFinalcc))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbFinalV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFinalcc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbFinalcc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFinalV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnlLiquidLayout.createSequentialGroup()
+                        .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtNameStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblStock))
+                        .addGap(48, 48, 48)
+                        .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtNameDiluent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblDiluent))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(pnlLiquidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCalcLiquid)
@@ -1498,7 +1505,7 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoActionPerformed
-        InfoWindow frameInfos=new InfoWindow();
+        InfoWindow frameInfos = new InfoWindow();
         frameInfos.setVisible(true);
     }//GEN-LAST:event_btnInfoActionPerformed
 
@@ -1513,37 +1520,33 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearSolidActionPerformed
 
     private void btnCalcSolidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcSolidActionPerformed
-        if (inputCheckSolid()==false){
+        if (inputCheckSolid() == false) {
             lblMessageBar.setText("Something is wrong with the input. Please type values in 3 fields and leave 1 empty!");
-        }
-        else{
-            if (txtWeight.getText().equals("")){
-                calcWeight();  
+        } else {
+            if (txtWeight.getText().equals("")) {
+                calcWeight();
                 txtWeight.requestFocus();
                 txtWeight.selectAll();
-            }
-            else if (txtMW.getText().equals("")){
+            } else if (txtMW.getText().equals("")) {
                 calcMW();
                 txtMW.requestFocus();
                 txtMW.selectAll();
-            }
-            else if (txtVolume.getText().equals("")){
+            } else if (txtVolume.getText().equals("")) {
                 calcVolume();
                 txtVolume.requestFocus();
                 txtVolume.selectAll();
-            }
-            else {
+            } else {
                 calcConc();
                 txtConc.requestFocus();
                 txtConc.selectAll();
             }
         }
-        
+
     }//GEN-LAST:event_btnCalcSolidActionPerformed
 
-    
+
     private void chbSavingEnableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbSavingEnableActionPerformed
-        if (chbSavingEnable.isSelected()){
+        if (chbSavingEnable.isSelected()) {
             txtNameSubstance.setEnabled(true);
             txtNameSolvent.setEnabled(true);
             btnSave.setEnabled(true);
@@ -1555,8 +1558,11 @@ public class MainWindow extends javax.swing.JFrame {
             btnAddLiquid.setEnabled(true);
             txtNameStock.setEnabled(true);
             txtNameDiluent.setEnabled(true);
-        }
-        else {
+            lblSubstance.setEnabled(true);
+            lblSolvent.setEnabled(true);
+            lblStock.setEnabled(true);
+            lblDiluent.setEnabled(true);
+        } else {
             txtNameSubstance.setEnabled(false);
             txtNameSolvent.setEnabled(false);
             btnSave.setEnabled(false);
@@ -1568,6 +1574,10 @@ public class MainWindow extends javax.swing.JFrame {
             btnAddLiquid.setEnabled(false);
             txtNameStock.setEnabled(false);
             txtNameDiluent.setEnabled(false);
+            lblSubstance.setEnabled(false);
+            lblSolvent.setEnabled(false);
+            lblStock.setEnabled(false);
+            lblDiluent.setEnabled(false);
         }
     }//GEN-LAST:event_chbSavingEnableActionPerformed
 
@@ -1583,27 +1593,23 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearLiquidActionPerformed
 
     private void btnCalcLiquidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcLiquidActionPerformed
-        if (inputCheckLiquid()==false){
+        if (inputCheckLiquid() == false) {
             lblMessageBar.setText("Something is wrong with the input. Please type values in 3 fields and leave 1 empty!");
-        }
-        else {
+        } else {
             lblMessageBar.setText("Here you go!");
-            if (txtStockV.getText().equals("")){
+            if (txtStockV.getText().equals("")) {
                 calcStockV();
                 txtStockV.requestFocus();
                 txtStockV.selectAll();
-            }
-            else if (txtStockcc.getText().equals("")){
+            } else if (txtStockcc.getText().equals("")) {
                 calcStockCc();
                 txtStockcc.requestFocus();
                 txtStockcc.selectAll();
-            }
-            else if (txtFinalV.getText().equals("")){
+            } else if (txtFinalV.getText().equals("")) {
                 calcFinalV();
                 txtFinalV.requestFocus();
                 txtFinalV.selectAll();
-            }
-            else {
+            } else {
                 calcFinalCc();
                 txtFinalcc.requestFocus();
                 txtFinalcc.selectAll();
@@ -1612,23 +1618,23 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCalcLiquidActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        /*JFileChooser fc = new JFileChooser();
+        JFileChooser fc = new JFileChooser();
         int answer = fc.showSaveDialog(this);
         if (answer == JFileChooser.APPROVE_OPTION) {
             writeTextFile(fc.getSelectedFile().toPath(), printStuff.toString());
-        }*/
+        }
 
-        System.out.println(printStuff.toString());
+        //line used during development only
+        //System.out.println(printStuff.toString());
     }//GEN-LAST:event_btnSaveActionPerformed
-    
-    
+
+
     private void btnInsertNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertNameActionPerformed
-        if (printStuff.length()==0){
+        if (printStuff.length() == 0) {
             printStuff.append(txtNameSolution.getText());
             printStuff.append(lineBreak);
             lblMessageBar.setText("The solution name has been inserted");
-        }
-        else {
+        } else {
             printStuff.append(lineBreak);
             printStuff.append(txtNameSolution.getText());
             printStuff.append(lineBreak);
@@ -1637,164 +1643,336 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInsertNameActionPerformed
 
     private void btnAddSolidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSolidActionPerformed
-        try{
+        try {
             //getting the texts from the text fields
-            String weightText=txtWeight.getText();
-            String mwText=txtMW.getText();
-            String volumeText=txtVolume.getText();
-            String concText=txtConc.getText();
+            String weightText = txtWeight.getText();
+            String mwText = txtMW.getText();
+            String volumeText = txtVolume.getText();
+            String concText = txtConc.getText();
             String weightIn;
             String mwIn;
             String volumeIn;
             String concIn;
-            
+
             //implementing the Europe-friendly option
-            if (chbEuropeFriendly.isSelected()){
-                weightIn = weightText.replace(",",".");
-                mwIn = mwText.replace(",",".");
-                volumeIn=volumeText.replace(",",".");
-                concIn=concText.replace(",","."); 
-            }
-            else {
-                weightIn=weightText;
+            if (chbEuropeFriendly.isSelected()) {
+                weightIn = weightText.replace(",", ".");
+                mwIn = mwText.replace(",", ".");
+                volumeIn = volumeText.replace(",", ".");
+                concIn = concText.replace(",", ".");
+            } else {
+                weightIn = weightText;
                 mwIn = mwText;
-                volumeIn=volumeText;
-                concIn=concText; 
+                volumeIn = volumeText;
+                concIn = concText;
             }
 
             //getting the numbers for the calculation
-            double weight=Double.parseDouble(weightIn);
-            double mw=Double.parseDouble(mwIn);
-            double volume=Double.parseDouble(volumeIn);
-            double conc=Double.parseDouble(concIn);
-            
-            String weightF=String.format("|%7.2f  ", weight);
+            double weight = Double.parseDouble(weightIn);
+            double mw = Double.parseDouble(mwIn);
+            double volume = Double.parseDouble(volumeIn);
+            double conc = Double.parseDouble(concIn);
+
+            String weightF = String.format("|%7.2f  ", weight);
             printStuff.append(weightF);
-            String weightUnitF=String.format("%-7s", cbWeight.getSelectedItem());
+            String weightUnitF = String.format("%-7s", cbWeight.getSelectedItem());
             printStuff.append(weightUnitF);
-            String substanceF=String.format("%-15s|", txtNameSubstance.getText());
+            String substanceF = String.format("%-15s|", txtNameSubstance.getText());
             printStuff.append(substanceF);
-            String mwF=String.format("MW =%9.2f |", mw);
+            String mwF = String.format("MW =%9.2f |", mw);
             printStuff.append(mwF);
-            String volumeF=String.format("%7.2f  ", volume);
+            String volumeF = String.format("%7.2f  ", volume);
             printStuff.append(volumeF);
-            String volUnitF=String.format("%-7s", cbVolume.getSelectedItem());
+            String volUnitF = String.format("%-7s", cbVolume.getSelectedItem());
             printStuff.append(volUnitF);
-            String solventF=String.format("%-15s|", txtNameSolvent.getText());
+            String solventF = String.format("%-15s|", txtNameSolvent.getText());
             printStuff.append(solventF);
-            String concF=String.format("%7.2f  ", conc);
+            String concF = String.format("%7.2f  ", conc);
             printStuff.append(concF);
-            String cUnitF=String.format("%-7s", cbConc.getSelectedItem());
+            String cUnitF = String.format("%-7s|", cbConc.getSelectedItem());
             printStuff.append(cUnitF);
             printStuff.append(lineBreak);
-            
-            txtNameSubstance.requestFocus();
-            txtNameSubstance.selectAll();
+
             lblMessageBar.setText("The line was added to the solution");
-            
-            
-        }
-        catch (NumberFormatException ex){
+
+        } catch (NumberFormatException ex) {
             lblMessageBar.setText("Something went wrong when adding the line to the solution");
         }
-        
-        txtNameSubstance.requestFocus();
-        txtNameSubstance.selectAll();
-        lblMessageBar.setText("The line was added to the solution");
-        
-        
-        
-        /*printStuff.append(txtWeight.getText()+" "+cbWeight.getSelectedItem()+"\t"+txtNameSubstance.getText()+
-                "\t\t"+"(MW = "+txtMW.getText()+")"+"\t"+"in "+txtVolume.getText()+" "+cbVolume.getSelectedItem()+"\t"+
-                txtNameSolvent.getText()+"\t"+"("+txtConc.getText()+" "+cbConc.getSelectedItem()+")");
-        printStuff.append(lineBreak);*/
+
+
     }//GEN-LAST:event_btnAddSolidActionPerformed
 
     private void btnAddClearSolidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddClearSolidActionPerformed
-        
-        printStuff.append(txtWeight.getText()+" "+cbWeight.getSelectedItem()+"\t"+txtNameSubstance.getText()+
-                "\t\t"+"(MW = "+txtMW.getText()+")"+"\t"+"in "+txtVolume.getText()+" "+cbVolume.getSelectedItem()+"\t"+
-                txtNameSolvent.getText()+"\t"+"("+txtConc.getText()+" "+cbConc.getSelectedItem()+")");
-        printStuff.append(lineBreak);
-        txtWeight.setText("");
-        txtMW.setText("");
-        txtVolume.setText("");
-        txtConc.setText("");
-        cbWeight.setSelectedItem("g");
-        cbVolume.setSelectedItem("L");
-        cbConc.setSelectedItem("M");
-        txtNameSubstance.requestFocus();
-        txtNameSubstance.selectAll();
-        lblMessageBar.setText("Added to the solution");
-        
+        try {
+            //getting the texts from the text fields
+            String weightText = txtWeight.getText();
+            String mwText = txtMW.getText();
+            String volumeText = txtVolume.getText();
+            String concText = txtConc.getText();
+            String weightIn;
+            String mwIn;
+            String volumeIn;
+            String concIn;
+
+            //implementing the Europe-friendly option
+            if (chbEuropeFriendly.isSelected()) {
+                weightIn = weightText.replace(",", ".");
+                mwIn = mwText.replace(",", ".");
+                volumeIn = volumeText.replace(",", ".");
+                concIn = concText.replace(",", ".");
+            } else {
+                weightIn = weightText;
+                mwIn = mwText;
+                volumeIn = volumeText;
+                concIn = concText;
+            }
+
+            //getting the numbers for the calculation
+            double weight = Double.parseDouble(weightIn);
+            double mw = Double.parseDouble(mwIn);
+            double volume = Double.parseDouble(volumeIn);
+            double conc = Double.parseDouble(concIn);
+
+            String weightF = String.format("|%7.2f  ", weight);
+            printStuff.append(weightF);
+            String weightUnitF = String.format("%-7s", cbWeight.getSelectedItem());
+            printStuff.append(weightUnitF);
+            String substanceF = String.format("%-15s|", txtNameSubstance.getText());
+            printStuff.append(substanceF);
+            String mwF = String.format("MW =%9.2f |", mw);
+            printStuff.append(mwF);
+            String volumeF = String.format("%7.2f  ", volume);
+            printStuff.append(volumeF);
+            String volUnitF = String.format("%-7s", cbVolume.getSelectedItem());
+            printStuff.append(volUnitF);
+            String solventF = String.format("%-15s|", txtNameSolvent.getText());
+            printStuff.append(solventF);
+            String concF = String.format("%7.2f  ", conc);
+            printStuff.append(concF);
+            String cUnitF = String.format("%-7s|", cbConc.getSelectedItem());
+            printStuff.append(cUnitF);
+            printStuff.append(lineBreak);
+
+            lblMessageBar.setText("The line was added to the solution");
+
+            txtWeight.setText("");
+            txtMW.setText("");
+            txtVolume.setText("");
+            txtConc.setText("");
+            cbWeight.setSelectedItem("g");
+            cbVolume.setSelectedItem("L");
+            cbConc.setSelectedItem("M");
+
+        } catch (NumberFormatException ex) {
+            lblMessageBar.setText("Something went wrong when adding the line to the solution");
+        }
+
+
     }//GEN-LAST:event_btnAddClearSolidActionPerformed
 
-    
+
     private void reactEnterSolid(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_reactEnterSolid
-        if (evt.getKeyCode()==KeyEvent.VK_ENTER){
-            if (inputCheckSolid()==false){
-            lblMessageBar.setText("Something is wrong with the input. Please type values in 3 fields and leave 1 empty!");
-        }
-        else{
-            if (txtWeight.getText().equals("")){
-                calcWeight();  
-                txtWeight.requestFocus();
-                txtWeight.selectAll();
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (inputCheckSolid() == false) {
+                lblMessageBar.setText("Something is wrong with the input. Please type values in 3 fields and leave 1 empty!");
+            } else {
+                if (txtWeight.getText().equals("")) {
+                    calcWeight();
+                    txtWeight.requestFocus();
+                    txtWeight.selectAll();
+                } else if (txtMW.getText().equals("")) {
+                    calcMW();
+                    txtMW.requestFocus();
+                    txtMW.selectAll();
+                } else if (txtVolume.getText().equals("")) {
+                    calcVolume();
+                    txtVolume.requestFocus();
+                    txtVolume.selectAll();
+                } else {
+                    calcConc();
+                    txtConc.requestFocus();
+                    txtConc.selectAll();
+                }
             }
-            else if (txtMW.getText().equals("")){
-                calcMW();
-                txtMW.requestFocus();
-                txtMW.selectAll();
-            }
-            else if (txtVolume.getText().equals("")){
-                calcVolume();
-                txtVolume.requestFocus();
-                txtVolume.selectAll();
-            }
-            else {
-                calcConc();
-                txtConc.requestFocus();
-                txtConc.selectAll();
-            }
-        }
         }
     }//GEN-LAST:event_reactEnterSolid
 
     private void reactEnterLiquid(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_reactEnterLiquid
-        if (evt.getKeyCode()==KeyEvent.VK_ENTER){
-            if (inputCheckLiquid()==false){
-            lblMessageBar.setText("Something is wrong with the input. Please type values in 3 fields and leave 1 empty!");
-        }
-        else {
-            lblMessageBar.setText("Here you go!");
-            if (txtStockV.getText().equals("")){
-                calcStockV();
-                txtStockV.requestFocus();
-                txtStockV.selectAll();
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (inputCheckLiquid() == false) {
+                lblMessageBar.setText("Something is wrong with the input. Please type values in 3 fields and leave 1 empty!");
+            } else {
+                lblMessageBar.setText("Here you go!");
+                if (txtStockV.getText().equals("")) {
+                    calcStockV();
+                    txtStockV.requestFocus();
+                    txtStockV.selectAll();
+                } else if (txtStockcc.getText().equals("")) {
+                    calcStockCc();
+                    txtStockcc.requestFocus();
+                    txtStockcc.selectAll();
+                } else if (txtFinalV.getText().equals("")) {
+                    calcFinalV();
+                    txtFinalV.requestFocus();
+                    txtFinalV.selectAll();
+                } else {
+                    calcFinalCc();
+                    txtFinalcc.requestFocus();
+                    txtFinalcc.selectAll();
+                }
             }
-            else if (txtStockcc.getText().equals("")){
-                calcStockCc();
-                txtStockcc.requestFocus();
-                txtStockcc.selectAll();
-            }
-            else if (txtFinalV.getText().equals("")){
-                calcFinalV();
-                txtFinalV.requestFocus();
-                txtFinalV.selectAll();
-            }
-            else {
-                calcFinalCc();
-                txtFinalcc.requestFocus();
-                txtFinalcc.selectAll();
-            }
-        }
         }
     }//GEN-LAST:event_reactEnterLiquid
 
     private void clickSolName(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clickSolName
         txtNameSolution.selectAll();
     }//GEN-LAST:event_clickSolName
-    
+
+    private void btnAddLiquidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLiquidActionPerformed
+        try {
+            //getting the texts from the text fields
+            String stockVText = txtStockV.getText();
+            String stockCcText = txtStockcc.getText();
+            String finalVText = txtFinalV.getText();
+            String finalCcText = txtFinalcc.getText();
+            String stockVIn;
+            String stockCcIn;
+            String finalVIn;
+            String finalCcIn;
+
+            //implementing the Europe-friendly option
+            if (chbEuropeFriendly.isSelected()) {
+                stockVIn = stockVText.replace(",", ".");
+                stockCcIn = stockCcText.replace(",", ".");
+                finalVIn = finalVText.replace(",", ".");
+                finalCcIn = finalCcText.replace(",", ".");
+            } else {
+                stockVIn = stockVText;
+                stockCcIn = stockCcText;
+                finalVIn = finalVText;
+                finalCcIn = finalCcText;
+            }
+
+            //getting the numbers for the calculation
+            double stockV = Double.parseDouble(stockVIn);
+            double stockCc = Double.parseDouble(stockCcIn);
+            double finalV = Double.parseDouble(finalVIn);
+            double finalCc = Double.parseDouble(finalCcIn);
+
+            String stockVF = String.format("|%7.2f  ", stockV);
+            printStuff.append(stockVF);
+            String stockVUnitF = String.format("%-7s", cbStockV.getSelectedItem());
+            printStuff.append(stockVUnitF);
+            String stockF = String.format("%-15s|", txtNameStock.getText());
+            printStuff.append(stockF);
+            String stockCcF = String.format("%7.2f", stockCc);
+            printStuff.append(stockCcF);
+            String stockCcUnitF = String.format(" %-6s|", cbStockcc.getSelectedItem());
+            printStuff.append(stockCcUnitF);
+            String finalVF = String.format("%7.2f  ", finalV);
+            printStuff.append(finalVF);
+            String finalVUnitF = String.format("%-7s", cbFinalV.getSelectedItem());
+            printStuff.append(finalVUnitF);
+            String diluentF = String.format("%-15s|", txtNameDiluent.getText());
+            printStuff.append(diluentF);
+            String finalCcF = String.format("%7.2f  ", finalCc);
+            printStuff.append(finalCcF);
+            String finalCcUnitF = String.format("%-7s|", cbFinalcc.getSelectedItem());
+            printStuff.append(finalCcUnitF);
+            printStuff.append(lineBreak);
+
+            lblMessageBar.setText("The line was added to the solution");
+
+        } catch (NumberFormatException ex) {
+            lblMessageBar.setText("Something went wrong when adding the line to the solution");
+        }
+
+    }//GEN-LAST:event_btnAddLiquidActionPerformed
+
+    private void btnAddClearLiquidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddClearLiquidActionPerformed
+        try {
+            //getting the texts from the text fields
+            String stockVText = txtStockV.getText();
+            String stockCcText = txtStockcc.getText();
+            String finalVText = txtFinalV.getText();
+            String finalCcText = txtFinalcc.getText();
+            String stockVIn;
+            String stockCcIn;
+            String finalVIn;
+            String finalCcIn;
+
+            //implementing the Europe-friendly option
+            if (chbEuropeFriendly.isSelected()) {
+                stockVIn = stockVText.replace(",", ".");
+                stockCcIn = stockCcText.replace(",", ".");
+                finalVIn = finalVText.replace(",", ".");
+                finalCcIn = finalCcText.replace(",", ".");
+            } else {
+                stockVIn = stockVText;
+                stockCcIn = stockCcText;
+                finalVIn = finalVText;
+                finalCcIn = finalCcText;
+            }
+
+            //getting the numbers for the calculation
+            double stockV = Double.parseDouble(stockVIn);
+            double stockCc = Double.parseDouble(stockCcIn);
+            double finalV = Double.parseDouble(finalVIn);
+            double finalCc = Double.parseDouble(finalCcIn);
+
+            String stockVF = String.format("|%7.2f  ", stockV);
+            printStuff.append(stockVF);
+            String stockVUnitF = String.format("%-7s", cbStockV.getSelectedItem());
+            printStuff.append(stockVUnitF);
+            String stockF = String.format("%-15s|", txtNameStock.getText());
+            printStuff.append(stockF);
+            String stockCcF = String.format("%7.2f", stockCc);
+            printStuff.append(stockCcF);
+            String stockCcUnitF = String.format(" %-6s|", cbStockcc.getSelectedItem());
+            printStuff.append(stockCcUnitF);
+            String finalVF = String.format("%7.2f  ", finalV);
+            printStuff.append(finalVF);
+            String finalVUnitF = String.format("%-7s", cbFinalV.getSelectedItem());
+            printStuff.append(finalVUnitF);
+            String diluentF = String.format("%-15s|", txtNameDiluent.getText());
+            printStuff.append(diluentF);
+            String finalCcF = String.format("%7.2f  ", finalCc);
+            printStuff.append(finalCcF);
+            String finalCcUnitF = String.format("%-7s|", cbFinalcc.getSelectedItem());
+            printStuff.append(finalCcUnitF);
+            printStuff.append(lineBreak);
+
+            lblMessageBar.setText("The line was added to the solution");
+
+            txtStockV.setText("");
+            txtStockcc.setText("");
+            txtFinalV.setText("");
+            txtFinalcc.setText("");
+            cbStockV.setSelectedItem("L");
+            cbStockcc.setSelectedItem("M");
+            cbFinalV.setSelectedItem("L");
+            cbFinalcc.setSelectedItem("M");
+        } catch (NumberFormatException ex) {
+            lblMessageBar.setText("Something went wrong when adding the line to the solution");
+        }
+    }//GEN-LAST:event_btnAddClearLiquidActionPerformed
+
+    private void solventReactClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_solventReactClick
+        txtNameSolvent.selectAll();
+    }//GEN-LAST:event_solventReactClick
+
+    private void substanceReactClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_substanceReactClick
+        txtNameSubstance.selectAll();
+    }//GEN-LAST:event_substanceReactClick
+
+    private void stockReactClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stockReactClick
+        txtNameStock.selectAll();
+    }//GEN-LAST:event_stockReactClick
+
+    private void diluentReactClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diluentReactClick
+        txtNameDiluent.selectAll();
+    }//GEN-LAST:event_diluentReactClick
+
     /**
      * @param args the command line arguments
      */
@@ -1852,12 +2030,16 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JCheckBox chbEuropeFriendly;
     private javax.swing.JCheckBox chbSavingEnable;
     private javax.swing.JLabel lblConc;
+    private javax.swing.JLabel lblDiluent;
     private javax.swing.JLabel lblFinalV;
     private javax.swing.JLabel lblFinalcc;
     private javax.swing.JLabel lblMW;
     private javax.swing.JLabel lblMessageBar;
+    private javax.swing.JLabel lblSolvent;
+    private javax.swing.JLabel lblStock;
     private javax.swing.JLabel lblStockV;
     private javax.swing.JLabel lblStockcc;
+    private javax.swing.JLabel lblSubstance;
     private javax.swing.JLabel lblVolume;
     private javax.swing.JLabel lblWeight;
     private javax.swing.JLabel lblWelcome;
