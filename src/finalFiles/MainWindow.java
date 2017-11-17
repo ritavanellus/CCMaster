@@ -1051,6 +1051,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        lblMessageBar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblMessageBar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblMessageBar.setText("<html>Messages <br>\nAnything happens in this box, stays in this box. ");
         lblMessageBar.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -1643,130 +1644,140 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInsertNameActionPerformed
 
     private void btnAddSolidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSolidActionPerformed
-        try {
-            //getting the texts from the text fields
-            String weightText = txtWeight.getText();
-            String mwText = txtMW.getText();
-            String volumeText = txtVolume.getText();
-            String concText = txtConc.getText();
-            String weightIn;
-            String mwIn;
-            String volumeIn;
-            String concIn;
+        if (txtNameSubstance.getText().length() > 15 || txtNameSolvent.getText().length() > 15) {
+            lblMessageBar.setText("<html>The name of the substance or the name of the solvent is longer than 15 characters!<br>"
+                    + "The line has not been added. Please change and try it again.");
+        } else {
+            try {
+                //getting the texts from the text fields
+                String weightText = txtWeight.getText();
+                String mwText = txtMW.getText();
+                String volumeText = txtVolume.getText();
+                String concText = txtConc.getText();
+                String weightIn;
+                String mwIn;
+                String volumeIn;
+                String concIn;
 
-            //implementing the Europe-friendly option
-            if (chbEuropeFriendly.isSelected()) {
-                weightIn = weightText.replace(",", ".");
-                mwIn = mwText.replace(",", ".");
-                volumeIn = volumeText.replace(",", ".");
-                concIn = concText.replace(",", ".");
-            } else {
-                weightIn = weightText;
-                mwIn = mwText;
-                volumeIn = volumeText;
-                concIn = concText;
+                //implementing the Europe-friendly option
+                if (chbEuropeFriendly.isSelected()) {
+                    weightIn = weightText.replace(",", ".");
+                    mwIn = mwText.replace(",", ".");
+                    volumeIn = volumeText.replace(",", ".");
+                    concIn = concText.replace(",", ".");
+                } else {
+                    weightIn = weightText;
+                    mwIn = mwText;
+                    volumeIn = volumeText;
+                    concIn = concText;
+                }
+
+                //getting the numbers for the calculation
+                double weight = Double.parseDouble(weightIn);
+                double mw = Double.parseDouble(mwIn);
+                double volume = Double.parseDouble(volumeIn);
+                double conc = Double.parseDouble(concIn);
+
+                String weightF = String.format("|%7.2f  ", weight);
+                printStuff.append(weightF);
+                String weightUnitF = String.format("%-7s", cbWeight.getSelectedItem());
+                printStuff.append(weightUnitF);
+                String substanceF = String.format("%-15s|", txtNameSubstance.getText());
+                printStuff.append(substanceF);
+                String mwF = String.format("MW =%9.2f |", mw);
+                printStuff.append(mwF);
+                String volumeF = String.format("%7.2f  ", volume);
+                printStuff.append(volumeF);
+                String volUnitF = String.format("%-7s", cbVolume.getSelectedItem());
+                printStuff.append(volUnitF);
+                String solventF = String.format("%-15s|", txtNameSolvent.getText());
+                printStuff.append(solventF);
+                String concF = String.format("%7.2f  ", conc);
+                printStuff.append(concF);
+                String cUnitF = String.format("%-7s|", cbConc.getSelectedItem());
+                printStuff.append(cUnitF);
+                printStuff.append(lineBreak);
+
+                lblMessageBar.setText("The line was added to the solution");
+
+            } catch (NumberFormatException ex) {
+                lblMessageBar.setText("Something went wrong when adding the line to the solution");
             }
-
-            //getting the numbers for the calculation
-            double weight = Double.parseDouble(weightIn);
-            double mw = Double.parseDouble(mwIn);
-            double volume = Double.parseDouble(volumeIn);
-            double conc = Double.parseDouble(concIn);
-
-            String weightF = String.format("|%7.2f  ", weight);
-            printStuff.append(weightF);
-            String weightUnitF = String.format("%-7s", cbWeight.getSelectedItem());
-            printStuff.append(weightUnitF);
-            String substanceF = String.format("%-15s|", txtNameSubstance.getText());
-            printStuff.append(substanceF);
-            String mwF = String.format("MW =%9.2f |", mw);
-            printStuff.append(mwF);
-            String volumeF = String.format("%7.2f  ", volume);
-            printStuff.append(volumeF);
-            String volUnitF = String.format("%-7s", cbVolume.getSelectedItem());
-            printStuff.append(volUnitF);
-            String solventF = String.format("%-15s|", txtNameSolvent.getText());
-            printStuff.append(solventF);
-            String concF = String.format("%7.2f  ", conc);
-            printStuff.append(concF);
-            String cUnitF = String.format("%-7s|", cbConc.getSelectedItem());
-            printStuff.append(cUnitF);
-            printStuff.append(lineBreak);
-
-            lblMessageBar.setText("The line was added to the solution");
-
-        } catch (NumberFormatException ex) {
-            lblMessageBar.setText("Something went wrong when adding the line to the solution");
         }
 
 
     }//GEN-LAST:event_btnAddSolidActionPerformed
 
     private void btnAddClearSolidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddClearSolidActionPerformed
-        try {
-            //getting the texts from the text fields
-            String weightText = txtWeight.getText();
-            String mwText = txtMW.getText();
-            String volumeText = txtVolume.getText();
-            String concText = txtConc.getText();
-            String weightIn;
-            String mwIn;
-            String volumeIn;
-            String concIn;
 
-            //implementing the Europe-friendly option
-            if (chbEuropeFriendly.isSelected()) {
-                weightIn = weightText.replace(",", ".");
-                mwIn = mwText.replace(",", ".");
-                volumeIn = volumeText.replace(",", ".");
-                concIn = concText.replace(",", ".");
-            } else {
-                weightIn = weightText;
-                mwIn = mwText;
-                volumeIn = volumeText;
-                concIn = concText;
+        if (txtNameSubstance.getText().length() > 15 || txtNameSolvent.getText().length() > 15) {
+            lblMessageBar.setText("<html>The name of the substance or the name of the solvent is longer than 15 characters!<br>"
+                    + "The line has not been added. Please change and try it again.");
+        } else {
+            try {
+                //getting the texts from the text fields
+                String weightText = txtWeight.getText();
+                String mwText = txtMW.getText();
+                String volumeText = txtVolume.getText();
+                String concText = txtConc.getText();
+                String weightIn;
+                String mwIn;
+                String volumeIn;
+                String concIn;
+
+                //implementing the Europe-friendly option
+                if (chbEuropeFriendly.isSelected()) {
+                    weightIn = weightText.replace(",", ".");
+                    mwIn = mwText.replace(",", ".");
+                    volumeIn = volumeText.replace(",", ".");
+                    concIn = concText.replace(",", ".");
+                } else {
+                    weightIn = weightText;
+                    mwIn = mwText;
+                    volumeIn = volumeText;
+                    concIn = concText;
+                }
+
+                //getting the numbers for the calculation
+                double weight = Double.parseDouble(weightIn);
+                double mw = Double.parseDouble(mwIn);
+                double volume = Double.parseDouble(volumeIn);
+                double conc = Double.parseDouble(concIn);
+
+                String weightF = String.format("|%7.2f  ", weight);
+                printStuff.append(weightF);
+                String weightUnitF = String.format("%-7s", cbWeight.getSelectedItem());
+                printStuff.append(weightUnitF);
+                String substanceF = String.format("%-15s|", txtNameSubstance.getText());
+                printStuff.append(substanceF);
+                String mwF = String.format("MW =%9.2f |", mw);
+                printStuff.append(mwF);
+                String volumeF = String.format("%7.2f  ", volume);
+                printStuff.append(volumeF);
+                String volUnitF = String.format("%-7s", cbVolume.getSelectedItem());
+                printStuff.append(volUnitF);
+                String solventF = String.format("%-15s|", txtNameSolvent.getText());
+                printStuff.append(solventF);
+                String concF = String.format("%7.2f  ", conc);
+                printStuff.append(concF);
+                String cUnitF = String.format("%-7s|", cbConc.getSelectedItem());
+                printStuff.append(cUnitF);
+                printStuff.append(lineBreak);
+
+                lblMessageBar.setText("The line was added to the solution");
+
+                txtWeight.setText("");
+                txtMW.setText("");
+                txtVolume.setText("");
+                txtConc.setText("");
+                cbWeight.setSelectedItem("g");
+                cbVolume.setSelectedItem("L");
+                cbConc.setSelectedItem("M");
+
+            } catch (NumberFormatException ex) {
+                lblMessageBar.setText("Something went wrong when adding the line to the solution");
             }
-
-            //getting the numbers for the calculation
-            double weight = Double.parseDouble(weightIn);
-            double mw = Double.parseDouble(mwIn);
-            double volume = Double.parseDouble(volumeIn);
-            double conc = Double.parseDouble(concIn);
-
-            String weightF = String.format("|%7.2f  ", weight);
-            printStuff.append(weightF);
-            String weightUnitF = String.format("%-7s", cbWeight.getSelectedItem());
-            printStuff.append(weightUnitF);
-            String substanceF = String.format("%-15s|", txtNameSubstance.getText());
-            printStuff.append(substanceF);
-            String mwF = String.format("MW =%9.2f |", mw);
-            printStuff.append(mwF);
-            String volumeF = String.format("%7.2f  ", volume);
-            printStuff.append(volumeF);
-            String volUnitF = String.format("%-7s", cbVolume.getSelectedItem());
-            printStuff.append(volUnitF);
-            String solventF = String.format("%-15s|", txtNameSolvent.getText());
-            printStuff.append(solventF);
-            String concF = String.format("%7.2f  ", conc);
-            printStuff.append(concF);
-            String cUnitF = String.format("%-7s|", cbConc.getSelectedItem());
-            printStuff.append(cUnitF);
-            printStuff.append(lineBreak);
-
-            lblMessageBar.setText("The line was added to the solution");
-
-            txtWeight.setText("");
-            txtMW.setText("");
-            txtVolume.setText("");
-            txtConc.setText("");
-            cbWeight.setSelectedItem("g");
-            cbVolume.setSelectedItem("L");
-            cbConc.setSelectedItem("M");
-
-        } catch (NumberFormatException ex) {
-            lblMessageBar.setText("Something went wrong when adding the line to the solution");
         }
-
 
     }//GEN-LAST:event_btnAddClearSolidActionPerformed
 
@@ -1829,131 +1840,140 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_clickSolName
 
     private void btnAddLiquidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLiquidActionPerformed
-        try {
-            //getting the texts from the text fields
-            String stockVText = txtStockV.getText();
-            String stockCcText = txtStockcc.getText();
-            String finalVText = txtFinalV.getText();
-            String finalCcText = txtFinalcc.getText();
-            String stockVIn;
-            String stockCcIn;
-            String finalVIn;
-            String finalCcIn;
+        if (txtNameStock.getText().length() > 15 || txtNameDiluent.getText().length() > 15) {
+            lblMessageBar.setText("<html>The name of the stock or the name of the diluent is longer than 15 characters!<br>"
+                    + "The line has not been added. Please change and try it again.");
+        } else {
+            try {
+                //getting the texts from the text fields
+                String stockVText = txtStockV.getText();
+                String stockCcText = txtStockcc.getText();
+                String finalVText = txtFinalV.getText();
+                String finalCcText = txtFinalcc.getText();
+                String stockVIn;
+                String stockCcIn;
+                String finalVIn;
+                String finalCcIn;
 
-            //implementing the Europe-friendly option
-            if (chbEuropeFriendly.isSelected()) {
-                stockVIn = stockVText.replace(",", ".");
-                stockCcIn = stockCcText.replace(",", ".");
-                finalVIn = finalVText.replace(",", ".");
-                finalCcIn = finalCcText.replace(",", ".");
-            } else {
-                stockVIn = stockVText;
-                stockCcIn = stockCcText;
-                finalVIn = finalVText;
-                finalCcIn = finalCcText;
+                //implementing the Europe-friendly option
+                if (chbEuropeFriendly.isSelected()) {
+                    stockVIn = stockVText.replace(",", ".");
+                    stockCcIn = stockCcText.replace(",", ".");
+                    finalVIn = finalVText.replace(",", ".");
+                    finalCcIn = finalCcText.replace(",", ".");
+                } else {
+                    stockVIn = stockVText;
+                    stockCcIn = stockCcText;
+                    finalVIn = finalVText;
+                    finalCcIn = finalCcText;
+                }
+
+                //getting the numbers for the calculation
+                double stockV = Double.parseDouble(stockVIn);
+                double stockCc = Double.parseDouble(stockCcIn);
+                double finalV = Double.parseDouble(finalVIn);
+                double finalCc = Double.parseDouble(finalCcIn);
+
+                String stockVF = String.format("|%7.2f  ", stockV);
+                printStuff.append(stockVF);
+                String stockVUnitF = String.format("%-7s", cbStockV.getSelectedItem());
+                printStuff.append(stockVUnitF);
+                String stockF = String.format("%-15s|", txtNameStock.getText());
+                printStuff.append(stockF);
+                String stockCcF = String.format("%7.2f", stockCc);
+                printStuff.append(stockCcF);
+                String stockCcUnitF = String.format(" %-6s|", cbStockcc.getSelectedItem());
+                printStuff.append(stockCcUnitF);
+                String finalVF = String.format("%7.2f  ", finalV);
+                printStuff.append(finalVF);
+                String finalVUnitF = String.format("%-7s", cbFinalV.getSelectedItem());
+                printStuff.append(finalVUnitF);
+                String diluentF = String.format("%-15s|", txtNameDiluent.getText());
+                printStuff.append(diluentF);
+                String finalCcF = String.format("%7.2f  ", finalCc);
+                printStuff.append(finalCcF);
+                String finalCcUnitF = String.format("%-7s|", cbFinalcc.getSelectedItem());
+                printStuff.append(finalCcUnitF);
+                printStuff.append(lineBreak);
+
+                lblMessageBar.setText("The line was added to the solution");
+
+            } catch (NumberFormatException ex) {
+                lblMessageBar.setText("Something went wrong when adding the line to the solution");
             }
-
-            //getting the numbers for the calculation
-            double stockV = Double.parseDouble(stockVIn);
-            double stockCc = Double.parseDouble(stockCcIn);
-            double finalV = Double.parseDouble(finalVIn);
-            double finalCc = Double.parseDouble(finalCcIn);
-
-            String stockVF = String.format("|%7.2f  ", stockV);
-            printStuff.append(stockVF);
-            String stockVUnitF = String.format("%-7s", cbStockV.getSelectedItem());
-            printStuff.append(stockVUnitF);
-            String stockF = String.format("%-15s|", txtNameStock.getText());
-            printStuff.append(stockF);
-            String stockCcF = String.format("%7.2f", stockCc);
-            printStuff.append(stockCcF);
-            String stockCcUnitF = String.format(" %-6s|", cbStockcc.getSelectedItem());
-            printStuff.append(stockCcUnitF);
-            String finalVF = String.format("%7.2f  ", finalV);
-            printStuff.append(finalVF);
-            String finalVUnitF = String.format("%-7s", cbFinalV.getSelectedItem());
-            printStuff.append(finalVUnitF);
-            String diluentF = String.format("%-15s|", txtNameDiluent.getText());
-            printStuff.append(diluentF);
-            String finalCcF = String.format("%7.2f  ", finalCc);
-            printStuff.append(finalCcF);
-            String finalCcUnitF = String.format("%-7s|", cbFinalcc.getSelectedItem());
-            printStuff.append(finalCcUnitF);
-            printStuff.append(lineBreak);
-
-            lblMessageBar.setText("The line was added to the solution");
-
-        } catch (NumberFormatException ex) {
-            lblMessageBar.setText("Something went wrong when adding the line to the solution");
         }
-
     }//GEN-LAST:event_btnAddLiquidActionPerformed
 
     private void btnAddClearLiquidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddClearLiquidActionPerformed
-        try {
-            //getting the texts from the text fields
-            String stockVText = txtStockV.getText();
-            String stockCcText = txtStockcc.getText();
-            String finalVText = txtFinalV.getText();
-            String finalCcText = txtFinalcc.getText();
-            String stockVIn;
-            String stockCcIn;
-            String finalVIn;
-            String finalCcIn;
+        if (txtNameStock.getText().length() > 15 || txtNameDiluent.getText().length() > 15) {
+            lblMessageBar.setText("<html>The name of the stock or the name of the diluent is longer than 15 characters!<br>"
+                    + "The line has not been added. Please change and try it again.");
+        } else {
+            try {
+                //getting the texts from the text fields
+                String stockVText = txtStockV.getText();
+                String stockCcText = txtStockcc.getText();
+                String finalVText = txtFinalV.getText();
+                String finalCcText = txtFinalcc.getText();
+                String stockVIn;
+                String stockCcIn;
+                String finalVIn;
+                String finalCcIn;
 
-            //implementing the Europe-friendly option
-            if (chbEuropeFriendly.isSelected()) {
-                stockVIn = stockVText.replace(",", ".");
-                stockCcIn = stockCcText.replace(",", ".");
-                finalVIn = finalVText.replace(",", ".");
-                finalCcIn = finalCcText.replace(",", ".");
-            } else {
-                stockVIn = stockVText;
-                stockCcIn = stockCcText;
-                finalVIn = finalVText;
-                finalCcIn = finalCcText;
+                //implementing the Europe-friendly option
+                if (chbEuropeFriendly.isSelected()) {
+                    stockVIn = stockVText.replace(",", ".");
+                    stockCcIn = stockCcText.replace(",", ".");
+                    finalVIn = finalVText.replace(",", ".");
+                    finalCcIn = finalCcText.replace(",", ".");
+                } else {
+                    stockVIn = stockVText;
+                    stockCcIn = stockCcText;
+                    finalVIn = finalVText;
+                    finalCcIn = finalCcText;
+                }
+
+                //getting the numbers for the calculation
+                double stockV = Double.parseDouble(stockVIn);
+                double stockCc = Double.parseDouble(stockCcIn);
+                double finalV = Double.parseDouble(finalVIn);
+                double finalCc = Double.parseDouble(finalCcIn);
+
+                String stockVF = String.format("|%7.2f  ", stockV);
+                printStuff.append(stockVF);
+                String stockVUnitF = String.format("%-7s", cbStockV.getSelectedItem());
+                printStuff.append(stockVUnitF);
+                String stockF = String.format("%-15s|", txtNameStock.getText());
+                printStuff.append(stockF);
+                String stockCcF = String.format("%7.2f", stockCc);
+                printStuff.append(stockCcF);
+                String stockCcUnitF = String.format(" %-6s|", cbStockcc.getSelectedItem());
+                printStuff.append(stockCcUnitF);
+                String finalVF = String.format("%7.2f  ", finalV);
+                printStuff.append(finalVF);
+                String finalVUnitF = String.format("%-7s", cbFinalV.getSelectedItem());
+                printStuff.append(finalVUnitF);
+                String diluentF = String.format("%-15s|", txtNameDiluent.getText());
+                printStuff.append(diluentF);
+                String finalCcF = String.format("%7.2f  ", finalCc);
+                printStuff.append(finalCcF);
+                String finalCcUnitF = String.format("%-7s|", cbFinalcc.getSelectedItem());
+                printStuff.append(finalCcUnitF);
+                printStuff.append(lineBreak);
+
+                lblMessageBar.setText("The line was added to the solution");
+
+                txtStockV.setText("");
+                txtStockcc.setText("");
+                txtFinalV.setText("");
+                txtFinalcc.setText("");
+                cbStockV.setSelectedItem("L");
+                cbStockcc.setSelectedItem("M");
+                cbFinalV.setSelectedItem("L");
+                cbFinalcc.setSelectedItem("M");
+            } catch (NumberFormatException ex) {
+                lblMessageBar.setText("Something went wrong when adding the line to the solution");
             }
-
-            //getting the numbers for the calculation
-            double stockV = Double.parseDouble(stockVIn);
-            double stockCc = Double.parseDouble(stockCcIn);
-            double finalV = Double.parseDouble(finalVIn);
-            double finalCc = Double.parseDouble(finalCcIn);
-
-            String stockVF = String.format("|%7.2f  ", stockV);
-            printStuff.append(stockVF);
-            String stockVUnitF = String.format("%-7s", cbStockV.getSelectedItem());
-            printStuff.append(stockVUnitF);
-            String stockF = String.format("%-15s|", txtNameStock.getText());
-            printStuff.append(stockF);
-            String stockCcF = String.format("%7.2f", stockCc);
-            printStuff.append(stockCcF);
-            String stockCcUnitF = String.format(" %-6s|", cbStockcc.getSelectedItem());
-            printStuff.append(stockCcUnitF);
-            String finalVF = String.format("%7.2f  ", finalV);
-            printStuff.append(finalVF);
-            String finalVUnitF = String.format("%-7s", cbFinalV.getSelectedItem());
-            printStuff.append(finalVUnitF);
-            String diluentF = String.format("%-15s|", txtNameDiluent.getText());
-            printStuff.append(diluentF);
-            String finalCcF = String.format("%7.2f  ", finalCc);
-            printStuff.append(finalCcF);
-            String finalCcUnitF = String.format("%-7s|", cbFinalcc.getSelectedItem());
-            printStuff.append(finalCcUnitF);
-            printStuff.append(lineBreak);
-
-            lblMessageBar.setText("The line was added to the solution");
-
-            txtStockV.setText("");
-            txtStockcc.setText("");
-            txtFinalV.setText("");
-            txtFinalcc.setText("");
-            cbStockV.setSelectedItem("L");
-            cbStockcc.setSelectedItem("M");
-            cbFinalV.setSelectedItem("L");
-            cbFinalcc.setSelectedItem("M");
-        } catch (NumberFormatException ex) {
-            lblMessageBar.setText("Something went wrong when adding the line to the solution");
         }
     }//GEN-LAST:event_btnAddClearLiquidActionPerformed
 
